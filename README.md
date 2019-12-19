@@ -11,8 +11,7 @@ start: 9 grudnia 2019
 1. W convertToDataFrame sprawdzać na końcu czy ramka danych ma jednolite typy kolumn. Jeśli nie RaiseException
 
 ### Done : 
-**Klasa csvToDataFrame**  
-
+**Klasa csvToDataFrame**    
   Celem tej klasy jest konwertowanie plików csv na Ramki danych naszego autorstwa. 
   Do konstruktora przyjmuje ścieżkę do pliku csv oraz separator użyty w pliku. 
   Ważne! Csv MUSI posiadać header, jeżeli nie będzie go miało wczytany zostanie pierwszy wiersz danych.
@@ -23,10 +22,10 @@ start: 9 grudnia 2019
 >  ***convertToDataFrame()***   
 >    Konwertuje linia po lini csv i dodaje do obiektu DataFrame. 
 
-**Klasa DataFrame** 
+**Klasa DataFrame**   
   Klasa ma za zadanie być naszym głównym narzędziem do posługiwania się danymi. Jednolita, z tymi samymi typami danych w kolumnach będzie świetną i wygodną alternatywą dla R-owych data Frame i Pythonowych Pandasów. 
   
->   ***convertToNumeric()*** 
+>   ***convertToNumeric()***   
 >     Dla każdej kolumny sprawdza czy jest Stringiem, jeżeli tak, to każdy odmienny string zamienia na inną liczbę. Operacje wykonuje na istniejącym DataFrame. Zwraca void. 
 
 
