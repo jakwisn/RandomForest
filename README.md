@@ -1,28 +1,32 @@
-# Konspekt projektu
+# Dokumentacja 
 
+## Autorzy
 Paulina Przybyłek
 Jakub Wiśniewski
 Dawid Przybyliński
 
-9 grudnia 2019
+start: 9 grudnia 2019
 
-## Temat: Implementacja lasu losowego na zasadzie biblioteki w Javie.
-
-Lista zadań:  
-1. Zrobienie indeksu Giniego/Entropii.  
-2. Struktura drzewa. Klasa Tree.  
-3. Dokonywanie podziału zmiennych.  
-4. Metoda tworzenia predycji i budowania drzewa.  
-5. Funkcje do wprowadzania i odczytywania danych do zastosowania przez las losowy. Podział zbioru na trenujący i testowy.    
-6. Testowanie drzew. Poprawianie i ulepszanie algorytmu.  
-7. Las losowy (oraz bagging).  
-8. Rozpoczęcie pracy nad intersejsem graficznym. Podstawowe narzędzia do wykorzystywania lasów losowych.  
-9. Doszlifowanie prezentacji interfesju graficznego.  
-10. Testowanie i analiza wyników.  
+## @ToDo
 
 
+## Done : 
+Klasa csvToDataFrame
 
+  Celem tej klasy jest konwertowanie plików csv na Ramki danych naszego autorstwa. 
+  Do konstruktora przyjmuje ścieżkę do pliku csv oraz separator użyty w pliku. 
+  Ważne! Csv MUSI posiadać header, jeżeli nie będzie go miało wczytany zostanie pierwszy wiersz danych.
+  
+  *getColnames()* 
+    zmienia pierwszy wiersz na listę kolumn
+    
+  *convertToDataFrame()* 
+    Konwertuje linia po lini csv i dodaje do obiektu DataFrame. 
 
+Klasa DataFrame
+  
+  Klasa ma za zadanie być naszym głównym narzędziem do posługiwania się danymi. Jednolita, z tymi samymi typami danych w kolumnach będzie świetną i wygodną alternatywą dla R-owych data Frame i Pythonowych Pandasów. 
+  
 
 
 
