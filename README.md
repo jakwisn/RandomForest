@@ -13,6 +13,7 @@ Cele projektu, jego krótka charakterystyka i opis podziału pracy zostały zawa
 
 ### @ToDo
 
+W klasie csvToDataFrame należy obsłużyć wyjątki powstające, w przypadku gdy użytkownik poda pusty plik (zwraca na razie błąd NullPointerException) albo plik innego typu (spójrzcie co zwraca). 
 
 ### Done : 
 **Klasa csvToDataFrame**    
