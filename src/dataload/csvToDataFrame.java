@@ -3,6 +3,8 @@ package dataload;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -19,6 +21,8 @@ public class csvToDataFrame {
 
     public DataFrame convertToDataFrame() throws IOException, CustomException {
         // Converts CSV to DataFrame class
+
+        if (!Files.exists(Paths.get(pathToCSV))) throw new RuntimeException("Place " + pathToCSV + " file in project root directory");
 
         BufferedReader br ;
         br = new BufferedReader(new FileReader(pathToCSV));
@@ -94,6 +98,10 @@ public class csvToDataFrame {
     }
 
     public ArrayList<String> getColnames() throws IOException {
+
+        if (!Files.exists(Paths.get(pathToCSV))) throw new RuntimeException("Place " + pathToCSV + " file in project root directory");
+
+
         BufferedReader br;
         br = new BufferedReader(new FileReader(pathToCSV));
 
@@ -102,7 +110,7 @@ public class csvToDataFrame {
 
         // splitting by declared separator
         String[] Columns = columns.split(separator);
-        ArrayList<String> ColumnsArray = new ArrayList<String>(Arrays.asList(Columns));
+        ArrayList<String> ColumnsArray = new ArrayList<>(Arrays.asList(Columns));
 
         return ColumnsArray;
     }

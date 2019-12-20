@@ -1,6 +1,6 @@
 package dataload;
 
-class CustomException extends Exception
+public class CustomException extends Exception
 {
     public CustomException(String message)
     {

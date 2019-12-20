@@ -14,6 +14,8 @@ Cele projektu, jego krótka charakterystyka i opis podziału pracy zostały zawa
 ### @ToDo
 
 W klasie csvToDataFrame należy obsłużyć wyjątki powstające, w przypadku gdy użytkownik poda pusty plik (zwraca na razie błąd NullPointerException) albo plik innego typu (spójrzcie co zwraca). 
+Po dodaniu powyższego należy poprawić klasę DataLoadTests przy testach sprawdzających to. Dodatkowo można dodać więcej testów klasy DataFrame.
+Ważne: Zapytać się czy lepiej, aby klasa z wyjątkiem była publiczna czy zmienić położenie testów, aby mogły korzystać z prywatnych klas.
 
 ### Done : 
 **Klasa csvToDataFrame**    
