@@ -12,13 +12,15 @@ start: 9 grudnia 2019
 Cele projektu, jego krótka charakterystyka i opis podziału pracy zostały zawarte w pliku Konspekt.pdf. Projekt będzie realizowany zgodnie z zawartymi tam informacjami. Zaleca się zapoznanie z nim.
 
 ### @ToDo
-1. W convertToDataFrame sprawdzać na końcu czy ramka danych ma jednolite typy kolumn. Jeśli nie RaiseException
+
 
 ### Done : 
 **Klasa csvToDataFrame**    
   Celem tej klasy jest konwertowanie plików csv na Ramki danych naszego autorstwa. 
   Do konstruktora przyjmuje ścieżkę do pliku csv oraz separator użyty w pliku. 
   Ważne! Csv MUSI posiadać header, jeżeli nie będzie go miało wczytany zostanie pierwszy wiersz danych.
+  Sprawdzane jest także, czy w żadnej kolumnie podanego pliku csv nie ma pomieszanych wartości numerycznych z wartościami
+  tekstowymi. Jeżeli zajdzie taka sytuacja program wyrzuci wyjątek.
   
 >  ***getColnames()***   
 >    zmienia pierwszy wiersz na listę kolumn
