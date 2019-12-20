@@ -7,6 +7,10 @@ Dawid Przybyliński
 
 start: 9 grudnia 2019
 
+## Konspekt projektu
+
+Cele projektu, jego krótka charakterystyka i opis podziału pracy zostały zawarte w pliku Konspekt.pdf. Projekt będzie realizowany zgodnie z zawartymi tam informacjami. Zaleca się zapoznanie z nim.
+
 ### @ToDo
 1. W convertToDataFrame sprawdzać na końcu czy ramka danych ma jednolite typy kolumn. Jeśli nie RaiseException
 
