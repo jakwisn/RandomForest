@@ -1,3 +1,5 @@
+package dataload;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -15,7 +17,7 @@ public class csvToDataFrame {
         this.separator = separator;
     }
 
-    public DataFrame convertToDataFrame() throws IOException {
+    public DataFrame convertToDataFrame() throws IOException, CustomException {
         // Converts CSV to DataFrame class
 
         BufferedReader br ;
@@ -46,6 +48,48 @@ public class csvToDataFrame {
             }
             line = br.readLine();
         }
+
+        // check whether columuns have one type variables only
+        for (int i=0; i<ColumnsArray.size(); i++){
+            ArrayList column = hashMap.get(ColumnsArray.get(i));
+            boolean IsNumber = true;
+            try {
+                double d = Double.parseDouble((String) column.get(0));
+            } catch (NumberFormatException nfe) {
+                IsNumber = false;
+            }
+            if (IsNumber){
+                for (Object v:column){
+                    IsNumber = true;
+                    try {
+                        double d = Double.parseDouble((String) v);
+                    } catch (NumberFormatException nfe) {
+                        IsNumber = false;
+                    }
+
+                    if (! (IsNumber)){
+                        throw new CustomException("Strings mixed with numbers in column " + ColumnsArray.get(i) + "!");
+                    }
+                }
+            }
+            else{
+                for (Object v:column){
+                    IsNumber = true;
+                    try {
+                        double d = Double.parseDouble((String) v);
+                    } catch (NumberFormatException nfe) {
+                        IsNumber = false;
+                    }
+
+                    if (IsNumber){
+                        throw new CustomException("Strings mixed with numbers in column "  + ColumnsArray.get(i) + "!");
+                    }
+                }
+            }
+        }
+
+
+
         return new DataFrame(hashMap,ColumnsArray);
     }
 
@@ -61,6 +105,15 @@ public class csvToDataFrame {
         ArrayList<String> ColumnsArray = new ArrayList<String>(Arrays.asList(Columns));
 
         return ColumnsArray;
+    }
+
+    private boolean isNumber(String myString){
+        try {
+            double d = Double.parseDouble(myString);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 
 }
