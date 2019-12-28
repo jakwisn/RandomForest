@@ -1,6 +1,7 @@
 package dataload;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,10 +20,13 @@ public class csvToDataFrame {
         this.separator = separator;
     }
 
-    public DataFrame convertToDataFrame() throws IOException, CustomException {
+    public DataFrame convertToDataFrame() throws Exception {
         // Converts CSV to DataFrame class
 
+        // if file does not exist
         if (!Files.exists(Paths.get(pathToCSV))) throw new RuntimeException("Place " + pathToCSV + " file in project root directory");
+
+
 
         BufferedReader br ;
         br = new BufferedReader(new FileReader(pathToCSV));
@@ -97,9 +101,21 @@ public class csvToDataFrame {
         return new DataFrame(hashMap,ColumnsArray);
     }
 
-    public ArrayList<String> getColnames() throws IOException {
+    public ArrayList<String> getColnames() throws Exception {
 
         if (!Files.exists(Paths.get(pathToCSV))) throw new RuntimeException("Place " + pathToCSV + " file in project root directory");
+
+        // if file is empty raise exception
+        File file1 = new File(pathToCSV);
+        if (file1.length() == 0){
+            throw new Exception("File " + file1.getName() +" is empty");
+        }
+
+        // if file is not csv
+        File file2 = new File(pathToCSV);
+        if (!(file2.getName().endsWith(".csv"))){
+            throw new Exception("File " + file2.getName() +" is not csv");
+        }
 
 
         BufferedReader br;
@@ -111,6 +127,9 @@ public class csvToDataFrame {
         // splitting by declared separator
         String[] Columns = columns.split(separator);
         ArrayList<String> ColumnsArray = new ArrayList<>(Arrays.asList(Columns));
+
+
+
 
         return ColumnsArray;
     }

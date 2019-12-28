@@ -11,7 +11,7 @@ import java.util.List;
 public class DataLoadTests {
 
     @org.junit.Test
-    public void DataFrameGetColumns() throws IOException, CustomException {
+    public void DataFrameGetColumns() throws Exception {
 
         csvToDataFrame csv2df = new csvToDataFrame("test.csv",",");
         DataFrame test = csv2df.convertToDataFrame();
@@ -37,7 +37,7 @@ public class DataLoadTests {
     }
 
     @org.junit.Test
-    public void ReadColumnsFile() throws IOException{
+    public void ReadColumnsFile() throws Exception {
         csvToDataFrame csv2df = new csvToDataFrame("test.csv",",");
         ArrayList<String> colnames = csv2df.getColnames();
 
@@ -47,7 +47,7 @@ public class DataLoadTests {
     }
 
     @org.junit.Test
-    public void DataFrameGetColnames() throws IOException, CustomException {
+    public void DataFrameGetColnames() throws Exception {
         csvToDataFrame csv2df = new csvToDataFrame("test.csv",",");
         DataFrame test = csv2df.convertToDataFrame();
         ArrayList<String> colnames = test.getColnames();
@@ -58,7 +58,7 @@ public class DataLoadTests {
     }
 
     @org.junit.Test
-    public void GetDataFrame() throws IOException, CustomException {
+    public void GetDataFrame() throws Exception {
         csvToDataFrame csv2df = new csvToDataFrame("test.csv",",");
         DataFrame test = csv2df.convertToDataFrame();
         HashMap<String, ArrayList> df = test.getDataFrame();
@@ -80,49 +80,52 @@ public class DataLoadTests {
 
 
     @org.junit.Test(expected = RuntimeException.class)
-    public void ReadNonExsitingFile() throws IOException, CustomException {
+    public void ReadNonExsitingFile() throws Exception {
         csvToDataFrame csv2df = new csvToDataFrame("noexistingfile.csv",",");
         DataFrame test = csv2df.convertToDataFrame();
 
     }
 
     @org.junit.Test(expected = RuntimeException.class)
-    public void ReadColumnsNonExsitingFile() throws IOException{
+    public void ReadColumnsNonExsitingFile() throws Exception {
         csvToDataFrame csv2df = new csvToDataFrame("noexistingfile.csv",",");
         ArrayList<String> colnames = csv2df.getColnames();
 
     }
 
-    //ToDo
-    @org.junit.Test(expected = NullPointerException.class)
-    public void ReadEmptyFile() throws IOException, CustomException {
+
+    @org.junit.Test(expected = Exception.class)
+    public void ReadEmptyFile() throws Exception {
         csvToDataFrame csv2df = new csvToDataFrame("emptyfile.csv",",");
         DataFrame test = csv2df.convertToDataFrame();
+
+
     }
 
-    //ToDo
-    @org.junit.Test(expected = NullPointerException.class)
-    public void ReadColumnsEmptyFile() throws IOException{
+
+    @org.junit.Test(expected = Exception.class)
+    public void ReadColumnsEmptyFile() throws Exception {
         csvToDataFrame csv2df = new csvToDataFrame("emptyfile.csv",",");
         ArrayList<String> colnames = csv2df.getColnames();
+
     }
 
-    //ToDo
-    @org.junit.Test(expected = IOException.class)
-    public void ReadWrongFormatFile() throws IOException, CustomException {
+
+    @org.junit.Test(expected = Exception.class)
+    public void ReadWrongFormatFile() throws Exception {
         csvToDataFrame csv2df = new csvToDataFrame("Konspekt.pdf",",");
         DataFrame test = csv2df.convertToDataFrame();
     }
 
     //ToDo
-    @org.junit.Test(expected = IOException.class)
-    public void ReadColumnsWrongFormatFile() throws IOException, CustomException {
+    @org.junit.Test(expected = Exception.class)
+    public void ReadColumnsWrongFormatFile() throws Exception {
         csvToDataFrame csv2df = new csvToDataFrame("Konspekt.pdf",",");
         ArrayList<String> colnames = csv2df.getColnames();
     }
 
     @org.junit.Test(expected = CustomException.class)
-    public void ConvertFileWithMixedColumns() throws IOException, CustomException {
+    public void ConvertFileWithMixedColumns() throws Exception {
         csvToDataFrame csv2df = new csvToDataFrame("test1.csv",",");
         DataFrame test = csv2df.convertToDataFrame();
     }
