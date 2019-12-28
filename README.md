@@ -39,7 +39,7 @@ Ważne: Zapytać się czy lepiej, aby klasa z wyjątkiem była publiczna czy zmi
 **Klasa Gini**
   Indeks Gini odpowiada dystrybucji klas w zbiorze. Gdy przykładowo w danym zbiorze będzie tyle samo elementów o klasach odpowiednio A,B,C, to indeks Gini wynosi 0.5. Jeżeli w tym zbiorze będą tylko elementy klasy B, to indeks wynosił będzie 0. Im mniejszy indeks, tym mniejsza entropia w danym zbiorze.
 
-![](Giniform-300x86.png)
+![](Giniform-300x68.png)
 
 
 
