@@ -12,9 +12,7 @@ start: 9 grudnia 2019
 Cele projektu, jego krótka charakterystyka i opis podziału pracy zostały zawarte w pliku Konspekt.pdf. Projekt będzie realizowany zgodnie z zawartymi tam informacjami. Zaleca się zapoznanie z nim.
 
 ### @ToDo
-
-W klasie csvToDataFrame należy obsłużyć wyjątki powstające, w przypadku gdy użytkownik poda pusty plik (zwraca na razie błąd NullPointerException) albo plik innego typu (spójrzcie co zwraca). 
-Po dodaniu powyższego należy poprawić klasę DataLoadTests przy testach sprawdzających to. Dodatkowo można dodać więcej testów klasy DataFrame.
+Dodatkowo można dodać więcej testów klasy DataFrame.
 Ważne: Zapytać się czy lepiej, aby klasa z wyjątkiem była publiczna czy zmienić położenie testów, aby mogły korzystać z prywatnych klas.
 
 ### Done : 
@@ -24,6 +22,7 @@ Ważne: Zapytać się czy lepiej, aby klasa z wyjątkiem była publiczna czy zmi
   Ważne! Csv MUSI posiadać header, jeżeli nie będzie go miało wczytany zostanie pierwszy wiersz danych.
   Sprawdzane jest także, czy w żadnej kolumnie podanego pliku csv nie ma pomieszanych wartości numerycznych z wartościami
   tekstowymi. Jeżeli zajdzie taka sytuacja program wyrzuci wyjątek.
+  Obsługuje wyjątki gdy plik jest pusty oraz gdy nie ma rozszerzenia csv.
   
 >  ***getColnames()***   
 >    zmienia pierwszy wiersz na listę kolumn
