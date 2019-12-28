@@ -44,7 +44,6 @@ public class DataFrame {
             // set prediced array to integers
 
             ArrayList<Integer> integers = dataFrame.get(colname);
-
             this.valuesToPredict = integers;
     }
 
