@@ -36,4 +36,15 @@ Ważne: Zapytać się czy lepiej, aby klasa z wyjątkiem była publiczna czy zmi
 >   ***convertToNumeric()***   
 >     Dla każdej kolumny sprawdza czy jest Stringiem, jeżeli tak, to każdy odmienny string zamienia na inną liczbę. Operacje wykonuje na istniejącym DataFrame. Zwraca void. 
 
+**Klasa Gini**
+  Indeks Gini odpowiada dystrybucji klas w zbiorze. Gdy przykładowo w danym zbiorze będzie tyle samo elementów o klasach odpowiednio A,B,C, to indeks Gini wynosi 0.5. Jeżeli w tym zbiorze będą tylko elementy klasy B, to indeks wynosił będzie 0. Im mniejszy indeks, tym mniejsza entropia w danym zbiorze.
+  
+  ![\Large x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}]
+
+
+
+
+
+
+
 
