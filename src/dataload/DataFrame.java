@@ -7,12 +7,14 @@ public class DataFrame {
 
     private HashMap<String,ArrayList> dataFrame;
     private ArrayList<String> colnames ;
-    private String toPredict = null;
+    private String colnameToPredict = null;
+    private ArrayList<Integer> valuesToPredict;
 
     public DataFrame(HashMap dataFrame , ArrayList<String> colnames) {
         this.dataFrame = dataFrame;
         this.colnames = colnames;
-        this.toPredict = toPredict;
+        this.colnameToPredict = colnameToPredict;
+        this.valuesToPredict = valuesToPredict;
     }
 
     public ArrayList<String> getColnames() {
@@ -36,7 +38,18 @@ public class DataFrame {
                 throw new Exception("In DataFrame there is no column named " + colname);
             }
 
-            this.toPredict = colname;
+            // set as predicted one
+            this.colnameToPredict = colname;
+
+            // set prediced array to integers
+
+            ArrayList<Integer> integers = dataFrame.get(colname);
+
+            this.valuesToPredict = integers;
+    }
+
+    public ArrayList<Integer> getValuesToPredict(){
+        return valuesToPredict;
     }
 
     public void convertToNumeric(){
