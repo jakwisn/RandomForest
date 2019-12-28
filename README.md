@@ -12,6 +12,7 @@ start: 9 grudnia 2019
 Cele projektu, jego krótka charakterystyka i opis podziału pracy zostały zawarte w pliku Konspekt.pdf. Projekt będzie realizowany zgodnie z zawartymi tam informacjami. Zaleca się zapoznanie z nim.
 
 ### @ToDo
+Zrobić specjalne Exception'y do testów.
 Dodatkowo można dodać więcej testów klasy DataFrame.
 Ważne: Zapytać się czy lepiej, aby klasa z wyjątkiem była publiczna czy zmienić położenie testów, aby mogły korzystać z prywatnych klas.
 
@@ -44,7 +45,7 @@ Ważne: Zapytać się czy lepiej, aby klasa z wyjątkiem była publiczna czy zmi
 
 
 **Klasa Gini**  
-  Indeks Gini odpowiada dystrybucji klas w zbiorze. Gdy przykładowo w danym zbiorze będzie tyle samo elementów o klasach odpowiednio A,B,C, to indeks Gini wynosi 0.5. Jeżeli w tym zbiorze będą tylko elementy klasy B, to indeks wynosił będzie 0. Im mniejszy indeks, tym mniejsza entropia w danym zbiorze.
+  Indeks Gini odpowiada dystrybucji klas w zbiorze. Gdy przykładowo w danym zbiorze będzie tyle samo elementów o klasach odpowiednio A oraz B to indeks Gini wynosi 0.5. Jeżeli w tym zbiorze będą tylko elementy klasy B, to indeks wynosił będzie 0. Im mniejszy indeks, tym mniejsza entropia w danym zbiorze. Sam indeks posiada wartości od 0 -gdy jest tylko jedna klasa, do 1, gdy jest nieskończenie wiele klas o bardzo małym prawdopodobieństwie.
 
 Indeks Gini określa się wzorem:
 ![](Giniform-300x68.png)
@@ -52,7 +53,7 @@ Indeks Gini określa się wzorem:
 Do konstruktora potrzebuje ramki danych DataFrame z określoną wcześniej kolumną oraz valuesToPredict
 
 >    ***calculateGiniIndex(ArrayList <Integer\> rowIndexes)***  
->       Dla danych indeksów rzędów (a dokładniej dla kolumny toPredict) liczy indeks Gini. Zwraca liczbę zmiennoprzecinkową od 0 do 0.5.
+>       Dla danych indeksów rzędów (a dokładniej dla kolumny toPredict) liczy indeks Gini. Zwraca liczbę zmiennoprzecinkową od 0 do 1.
 
 
 
