@@ -34,14 +34,25 @@ Ważne: Zapytać się czy lepiej, aby klasa z wyjątkiem była publiczna czy zmi
   Klasa ma za zadanie być naszym głównym narzędziem do posługiwania się danymi. Jednolita, z tymi samymi typami danych w kolumnach będzie świetną i wygodną alternatywą dla R-owych data Frame i Pythonowych Pandasów. 
   
 >   ***convertToNumeric()***   
->     Dla każdej kolumny sprawdza czy jest Stringiem, jeżeli tak, to każdy odmienny string zamienia na inną liczbę. Operacje wykonuje na istniejącym DataFrame. Zwraca void. 
+>      Dla każdej kolumny sprawdza czy jest Stringiem, jeżeli tak, to każdy odmienny string zamienia na inną liczbę. Operacje wykonuje na istniejącym DataFrame. Zwraca void. 
 
-**Klasa Gini**
+>   ***setToPredict(String colname)***  
+>      Oznacza kolumnę jako tą, na której będziemy trenować, a później przewidywać
+
+>   ***getValuesToPredict()*** 
+>      Zwraca nam kolumnę, którą będziemy w przyszłości przewidywać. W szczególności wykorzystywane przy liczeniu indeksu Gini.
+
+
+**Klasa Gini**  
   Indeks Gini odpowiada dystrybucji klas w zbiorze. Gdy przykładowo w danym zbiorze będzie tyle samo elementów o klasach odpowiednio A,B,C, to indeks Gini wynosi 0.5. Jeżeli w tym zbiorze będą tylko elementy klasy B, to indeks wynosił będzie 0. Im mniejszy indeks, tym mniejsza entropia w danym zbiorze.
 
+Indeks Gini określa się wzorem:
 ![](Giniform-300x68.png)
 
+Do konstruktora potrzebuje ramki danych DataFrame z określoną wcześniej kolumną oraz valuesToPredict
 
+>    ***calculateGiniIndex(ArrayList <Integer\> rowIndexes)***  
+>       Dla danych indeksów rzędów (a dokładniej dla kolumny toPredict) liczy indeks Gini. Zwraca liczbę zmiennoprzecinkową od 0 do 0.5.
 
 
 
