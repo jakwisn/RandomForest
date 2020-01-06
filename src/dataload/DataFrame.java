@@ -10,7 +10,7 @@ public class DataFrame {
     private String colnameToPredict = null;
     private ArrayList<Integer> valuesToPredict;
 
-    public DataFrame(HashMap dataFrame , ArrayList<String> colnames) {
+    public DataFrame(HashMap<String, ArrayList> dataFrame , ArrayList<String> colnames) {
         this.dataFrame = dataFrame;
         this.colnames = colnames;
         this.colnameToPredict = colnameToPredict;

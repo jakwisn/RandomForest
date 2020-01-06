@@ -3,7 +3,6 @@ package tests;
 import dataload.*;
 import org.junit.Assert;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -117,7 +116,7 @@ public class DataLoadTests {
         DataFrame test = csv2df.convertToDataFrame();
     }
 
-    //ToDo
+
     @org.junit.Test(expected = Exception.class)
     public void ReadColumnsWrongFormatFile() throws Exception {
         csvToDataFrame csv2df = new csvToDataFrame("Konspekt.pdf",",");
