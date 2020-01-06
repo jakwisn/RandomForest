@@ -63,8 +63,8 @@ public class DataLoadTests {
         HashMap<String, ArrayList> df = test.getDataFrame();
 
         Assert.assertEquals(11, df.size());
-        Assert.assertEquals(true, df.containsKey("Pclass"));
-        Assert.assertEquals(false, df.containsKey("Pclass2"));
+        Assert.assertTrue(df.containsKey("Pclass"));
+        Assert.assertFalse(df.containsKey("Pclass2"));
 
         List<String> data1 = new ArrayList<>();
         data1.add("ser");
@@ -73,7 +73,7 @@ public class DataLoadTests {
         data1.add("ser");
         data1.add("thor");
 
-        Assert.assertEquals(true, df.containsValue(data1));
+        Assert.assertTrue(df.containsValue(data1));
 
     }
 
