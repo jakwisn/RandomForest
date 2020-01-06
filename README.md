@@ -12,7 +12,22 @@ start: 9 grudnia 2019
 Cele projektu, jego krótka charakterystyka i opis podziału pracy zostały zawarte w pliku Konspekt.pdf. Projekt będzie realizowany zgodnie z zawartymi tam informacjami. Zaleca się zapoznanie z nim.
 
 ### @ToDo
-Zrobić specjalne Exception'y do testów.
+- Zrobić specjalne Exception'y do testów.
+- split(colname) : 
+    sort()  
+    znajduje splita, dla którego indeks gini jest minimalny  
+    zwraca column[gdzie mini_gini + 1]     
+- DecisionTree( max_depth, indeksy, nazwyKolumn)  
+    head  
+    (?)min_obs  
+    Node ma : colname, indexes, value, columns (pozostałe kolumny)  
+    hodujDrzewo(head,indeksy,nazwykolumn,max_depth)  
+      znajdź najlepsze splity dla każdej kolumny,   
+      z tych splitów wybierz ten który daje najmniejsze indeksy gini (metryka do dogadania)   
+      rekurencyjnie hoduj drzewo  
+      uwaga: gdy osiągniemy max depth, to zmieniamy na liście i obliczamy za pomocą majority voting klasę liścia.W przeciwnym przypadku gdy w danym Node będą wartości z indeksem giniego = 0 , to zmieniamy go w liścia i ustawiamy odpowiednią klasę.  
+    
+
 Dodatkowo można dodać więcej testów klasy DataFrame.
 Ważne: Zapytać się czy lepiej, aby klasa z wyjątkiem była publiczna czy zmienić położenie testów, aby mogły korzystać z prywatnych klas.
 
