@@ -12,7 +12,15 @@ start: 9 grudnia 2019
 Cele projektu, jego krótka charakterystyka i opis podziału pracy zostały zawarte w pliku Konspekt.pdf. Projekt będzie realizowany zgodnie z zawartymi tam informacjami. Zaleca się zapoznanie z nim.
 
 ### @ToDo
-Zrobić specjalne Exception'y do testów.
+-Zrobić specjalne Exception'y do testów.
+
+-split(colname) : 
+  sort()
+  znajduje splita, dla którego indeks gini jest minimalny
+  zwraca column[gdzie mini_gini + 1] 
+
+-
+
 Dodatkowo można dodać więcej testów klasy DataFrame.
 Ważne: Zapytać się czy lepiej, aby klasa z wyjątkiem była publiczna czy zmienić położenie testów, aby mogły korzystać z prywatnych klas.
 
