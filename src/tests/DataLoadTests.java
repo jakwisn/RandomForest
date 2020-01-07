@@ -109,6 +109,15 @@ public class DataLoadTests {
 
     }
 
+    @org.junit.Test
+    public void ReadNumericColumn() throws Exception {
+        csvToDataFrame csv2df = new csvToDataFrame("test.csv",",");
+        DataFrame df = csv2df.convertToDataFrame();
+        df.convertToNumeric();
+        System.out.println(df.getColumn("Age").get(1));
+        Assert.assertEquals(df.getColumn("Age").get(1), 47.0, 0001);
+    }
+
 
     @org.junit.Test(expected = Exception.class)
     public void ReadWrongFormatFile() throws Exception {
@@ -128,6 +137,7 @@ public class DataLoadTests {
         csvToDataFrame csv2df = new csvToDataFrame("test1.csv",",");
         DataFrame test = csv2df.convertToDataFrame();
     }
+
 
 
 
