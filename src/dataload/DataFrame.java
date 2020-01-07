@@ -21,7 +21,6 @@ public class DataFrame {
         return colnames;
     }
 
-    // @ToDo
     public void setColnames(ArrayList<String> colnamesToChange) throws Exception {
         if (colnames.size() != colnamesToChange.size()){
             throw new Exception("Złe wymiary list: " + colnames.size() + " oraz " + colnamesToChange.size() + " nie są równe");
