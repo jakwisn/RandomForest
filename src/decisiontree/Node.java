@@ -57,15 +57,15 @@ public class Node {
 
     public class Leaf extends Node {
 
-        int answear;
+        int answer;
 
-        public Leaf(ArrayList<Integer> Indexes, int answear) {
+        public Leaf(ArrayList<Integer> Indexes, int answer) {
             this.Indexes = Indexes;
-            this.answear = answear;
+            this.answer = answer;
         }
 
-        public int getAnswear() {
-            return answear;
+        public int getAnswer() {
+            return answer;
         }
     }
 
