@@ -6,18 +6,18 @@ public class Node {
 
     ArrayList<Integer> Indexes;
 
-    private Node() {
+    public Node() {
     }
 
-    public class Decision extends Node {
+    public static class Decision extends Node {
 
         Node Left = null;
         Node Right = null;
         ArrayList<String> columns;
         String colname;
-        double val;
+        double val = 0;
 
-        public Decision(ArrayList<Integer> Indexes, ArrayList<String> columns, String colname, double val) {
+        public Decision(ArrayList<Integer> Indexes, ArrayList<String> columns) {
             this.Indexes = Indexes;
             this.colname = colname;
             this.columns = columns;
@@ -49,6 +49,8 @@ public class Node {
         public String getColname() {
             return colname;
         }
+
+        public void setColname(String colname) { this.colname = colname; }
 
         public double getVal() {
             return val;
