@@ -21,15 +21,39 @@ public class DataFrame {
         return colnames;
     }
 
-    public void setColnames(ArrayList<String> colnames) {
-        this.colnames = colnames;
+    // @ToDo
+    public void setColnames(ArrayList<String> colnamesToChange) throws Exception {
+        if (colnames.size() != colnamesToChange.size()){
+            throw new Exception("Złe wymiary list: " + colnames.size() + " oraz " + colnamesToChange.size() + " nie są równe");
+        }
+
+        for (int i=0 ; i<colnamesToChange.size(); i++){
+            setColname(colnames.get(i), colnamesToChange.get(i));
+        }
+
+    }
+
+    public void setColname(String oldName, String newName) throws Exception {
+        if (!colnames.contains(oldName)){
+            throw new Exception("Nie ma takiej kolumny w ramce danych: " + oldName);
+        }
+        if (colnames.contains(newName)){
+            throw new Exception("Już jest taka kolumna w rance danych " + newName);
+        }
+        colnames.set(colnames.indexOf(oldName),newName);
+        ArrayList tmp = dataFrame.get(oldName);
+        dataFrame.remove(oldName);
+        dataFrame.put(newName, tmp);
     }
 
     public HashMap<String, ArrayList> getDataFrame() {
         return dataFrame;
     }
 
-    public ArrayList<Double> getColumn(String name) {
+    public ArrayList<Double> getColumn(String name) throws Exception {
+        if (!colnames.contains(name)){
+            throw new Exception("Nie ma takiej kolumny w ramce danych: " + name);
+        }
         return dataFrame.get(name);
     }
 
