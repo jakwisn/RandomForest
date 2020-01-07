@@ -14,15 +14,7 @@ public class Main {
        DataFrame test = csv2df.convertToDataFrame();
        test.convertToNumeric();
 
-
-       test.setToPredict("Sex");
-       Gini gini = new Gini(test);
-        ArrayList<Integer> arrayOfIndexes = new ArrayList<>();
-        arrayOfIndexes.add(0);
-
-       System.out.println( gini.calculateGiniIndex(arrayOfIndexes) );
-
-
+       System.out.println(test.getColumn("Age"));
+        System.out.println(test.getColumn("Pclass"));
     }
-
 }

@@ -22,6 +22,7 @@ public class DecisionTree {
     //@ToDo
     //jakas funckja na wszystkich danych kolumnach, licząca najmniejsze gini i zwracajaca dana kolumne
     //potem na tej kolumnie robimy split
+    /*
     private static String FindMiniGini(ArrayList<String> colnames){
 
     }
@@ -41,5 +42,5 @@ public class DecisionTree {
     DecisionTree GrowTree() {
         return GrowTree(head, Indexes, colnames, max_depth);
     }
-
+*/
 }
