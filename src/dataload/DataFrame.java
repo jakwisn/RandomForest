@@ -29,7 +29,6 @@ public class DataFrame {
         for (int i=0 ; i<colnamesToChange.size(); i++){
             setColname(colnames.get(i), colnamesToChange.get(i));
         }
-
     }
 
     public void setColname(String oldName, String newName) throws Exception {
@@ -65,10 +64,15 @@ public class DataFrame {
             this.colnameToPredict = colname;
 
             // set prediced array to integers
+            ArrayList<Double> doubles = dataFrame.get(colname);
+            ArrayList<Integer> integers = new ArrayList<>();
 
-            ArrayList<Integer> integers = dataFrame.get(colname);
+            for (int i = 0 ; i<doubles.size(); i++){
+                    integers.add((int) Math.round(doubles.get(i)));
+                }
+
             this.valuesToPredict = integers;
-    }
+        }
 
     public ArrayList<Integer> getValuesToPredict(){
         return valuesToPredict;

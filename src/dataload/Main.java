@@ -43,13 +43,14 @@ public class Main {
         inds.add(1);
         inds.add(2);
         inds.add(3);
-        inds.add(4);
         cols.add("Name");
         cols.add("Age");
         DecisionTree dt = new DecisionTree(test, inds, cols, 3);
-        Gini gini = new Gini(test);
         test.setToPredict("Sex");
+        Gini gini = new Gini(test);
+
         Node node = new Node.Decision(inds,cols);
         System.out.println(dt.split(new Node.Decision(inds,cols), gini));
+
     }
 }
