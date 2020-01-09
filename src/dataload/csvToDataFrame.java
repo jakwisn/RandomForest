@@ -45,7 +45,7 @@ public class csvToDataFrame {
         String colnames = br.readLine();
         String line = br.readLine();
 
-        while (line != null){
+        while (line != null | line == ""){
             String[] values = line.split(separator);
 
             for (int i =0;i < ColumnsArray.size(); i++){

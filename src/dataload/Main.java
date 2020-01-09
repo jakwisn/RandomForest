@@ -12,45 +12,38 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-       csvToDataFrame csv2df = new csvToDataFrame("test.csv",",");
+       csvToDataFrame csv2df = new csvToDataFrame("split_gini_test.csv",",");
        DataFrame test = csv2df.convertToDataFrame();
        test.convertToNumeric();
+       test.setToPredict("HasCancer");
 
-        System.out.println(test.getColumn("Age"));
-        System.out.println(test.getColumn("Pclass"));
-/*
-        ArrayList<String>  strings = new ArrayList<>();
-        strings.add("pa");
-        strings.add("g");
-        strings.add("dsd");
-        strings.add("sadas");
-        strings.add("asda");
-        strings.add("fdfd");
-        strings.add("gfg");
-        strings.add("hg");
-        strings.add("hggg");
-        strings.add("fds");
-        strings.add("fsdf");
-        test.setColnames(strings);
-        test.setToPredict("g");
-        System.out.println(test.getColnames());
-        System.out.println(test.getValuesToPredict());
-
- */
-        ArrayList inds = new ArrayList();
-        ArrayList cols = new ArrayList();
-        inds.add(0);
-        inds.add(1);
+       Gini gini = new Gini(test);
+       ArrayList<Integer> inds = new ArrayList<>();
+        inds.add(10);
         inds.add(2);
+        inds.add(5);
         inds.add(3);
-        cols.add("Name");
-        cols.add("Age");
-        DecisionTree dt = new DecisionTree(test, inds, cols, 3);
-        test.setToPredict("Sex");
-        Gini gini = new Gini(test);
+        inds.add(2);
+        inds.add(4);
+        inds.add(7);
+        inds.add(6);
+        inds.add(5);
+        inds.add(5);
+        inds.add(2);
+        inds.add(12);
 
-        Node node = new Node.Decision(inds,cols);
-        System.out.println(dt.split(new Node.Decision(inds,cols), gini));
+
+
+
+        ArrayList<String> cols = new ArrayList<>();
+        cols.add("Wealth");
+        cols.add("Sex");
+        cols.add("Sex");
+        cols.add("eyes");
+        DecisionTree dt = new DecisionTree(test, inds, cols, 5);
+        dt.hoduj();
+
+
 
     }
 }

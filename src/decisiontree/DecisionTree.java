@@ -3,19 +3,20 @@ package decisiontree;
 import dataload.DataFrame;
 import gini.Gini;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class DecisionTree {
 
+
     int min_observation = 2;
-    Node head = null;
+    Node.Decision head = null;
 
     static ArrayList<String> colnames;
     ArrayList<Integer> Indexes;
     int max_depth;
     static DataFrame dataFrame;
+    private Gini gini;
 
     public DecisionTree(DataFrame dataFrame, ArrayList<Integer> Indexes, ArrayList<String> colnames, int max_depth) {
         this.Indexes = Indexes;
@@ -23,6 +24,7 @@ public class DecisionTree {
         this.max_depth = max_depth;
         this.head = head;
         this.dataFrame = dataFrame;
+        this.gini = new Gini(dataFrame);
     }
 
 
@@ -30,60 +32,151 @@ public class DecisionTree {
     //jakas funckja na wszystkich danych kolumnach, licząca najmniejsze gini i zwracajaca dana kolumne
     //potem na tej kolumnie robimy split
     // znalezc dobre kryterium wyboru kolumny
-    private static String FindMiniGini(ArrayList<String> colnames){
-        return colnames.get(0);
+    public static ArrayList findColToSplit(ArrayList<String> colnames, ArrayList<Integer> indexes , Gini gini) throws Exception {
+        // Zwraca Arraylista (Nazwa kolumny, Wartość po której splitujemy)
+
+        double bestGiniSplit= 9;
+        int bestSplit = 0;
+        String bestCol = "";
+        for (String colname:colnames){
+            ArrayList tmp = split(colname,indexes,gini);
+            double giniSplit = (double) tmp.get(0);
+            int splitOnThis = (int)tmp.get(1);
+
+            if (giniSplit < bestGiniSplit){
+                bestGiniSplit = giniSplit;
+                bestSplit = splitOnThis;
+                bestCol = colname;
+            }
+        }
+
+        ArrayList toReturn = new ArrayList();
+        toReturn.add(bestCol);
+        toReturn.add(dataFrame.getColumn(bestCol).get(indexes.get(bestSplit)));
+
+        return toReturn;
+
     }
 
-    public static double split(Node.Decision node, Gini gini) throws Exception {
-        node.setColname(FindMiniGini(colnames));
-        ArrayList<Double> dlist = dataFrame.getColumn(node.getColname());
-        ArrayList<Integer> list = new ArrayList<>();
-        for (int i=0;i<dlist.size();i++){
-            list.add((int) Math.round(dlist.get(i)));
+
+
+    // dla node znajduje najlepszy punkt splitu
+    public static ArrayList split(String colname,ArrayList<Integer> indexes, Gini gini) throws Exception {
+        ArrayList<Double> fullList = dataFrame.getColumn(colname);
+        ArrayList<Double> list = new ArrayList<>();
+
+        ArrayList<Integer> integers = new ArrayList<>();
+        for (int i=0 ; i< indexes.size(); i++){
+
         }
-        Collections.sort(list);
+
+
+        for (int i:indexes){
+            list.add(fullList.get(i));
+        }
+
         int bestSplitIndex = 0;
         ArrayList listPart1 = new ArrayList();
         ArrayList listPart2 = new ArrayList();
-        for (int i=0;i<list.size();i++){
-            if (list.get(i)<list.get(0)){
-                listPart1.add(list.get(i));
+        for (int i=0;i<indexes.size();i++){
+            if (fullList.get(indexes.get(i))<fullList.get(indexes.get(0))){
+                listPart1.add(indexes.get(i));
             }
             else{
-                listPart2.add(list.get(i));
+                listPart2.add(indexes.get(i));
             }
         }
-        System.out.println(list);
+
         double gini1 = gini.calculateGiniIndex(listPart1);
         double gini2 = gini.calculateGiniIndex(listPart2);
-        double bestSplitValue = Math.pow((Math.pow(gini1,2)+Math.pow(gini2,2))/2,0.5);
+        double bestSplitValue = (gini1*listPart1.size()+gini2*listPart2.size())/(list.size());
+
         for (int i=1;i<list.size();i++){
             listPart1 = new ArrayList();
             listPart2 = new ArrayList();
-            for (int j=0;j<list.size();i++){
-                if (list.get(j)<list.get(i)){
-                    listPart1.add(list.get(j));
+            for (int j=0;j<indexes.size();j++){
+                if (fullList.get(indexes.get(j))<fullList.get(indexes.get(i))){
+                    listPart1.add(indexes.get(j));
                 }
                 else{
-                    listPart2.add(list.get(j));
+                    listPart2.add(indexes.get(j));
                 }
             }
+
             gini1 = gini.calculateGiniIndex(listPart1);
             gini2 = gini.calculateGiniIndex(listPart2);
-            if(Math.pow((Math.pow(gini1,2)+Math.pow(gini2,2))/2,0.5)<bestSplitValue){
-                bestSplitValue = Math.pow((Math.pow(gini1,2)+Math.pow(gini2,2))/2,0.5);
+            double x;
+            if (listPart1.size()*listPart2.size()==0) x = 1;
+            else x = 0;
+            if((gini1*listPart1.size()+gini2*listPart2.size())/(list.size())+x<bestSplitValue){
+                bestSplitValue = (gini1*listPart1.size()+gini2*listPart2.size())/(list.size());
                 bestSplitIndex = i;
             }
         }
-        return bestSplitIndex;
+
+
+
+        ArrayList toReturn = new ArrayList();
+        toReturn.add(bestSplitValue);
+        toReturn.add(bestSplitIndex);
+        return toReturn;
     }
 
+
+    void GrowTree(Node.Decision node) throws Exception {
+        ArrayList bestSplit = findColToSplit( node.getColumns(), node.getIndexes(), gini);
+        node.setVal((double)bestSplit.get(1));
+        node.setColname((String)bestSplit.get(0));
+
+        ArrayList list1 = new ArrayList();
+        ArrayList list2 = new ArrayList();
+        for (int i=0; i<node.Indexes.size(); i++){
+           if (dataFrame.getColumn(node.getColname()).get(node.Indexes.get(i)) >= node.val){
+               list2.add(node.Indexes.get(i));
+           }
+           else{
+               list1.add(node.Indexes.get(i));
+           }
+        }
+
+        node.gini1 = gini.calculateGiniIndex(list1);
+        node.gini2 = gini.calculateGiniIndex(list2);
+
+        node.list1 = list1;
+        node.list2 = list2;
+
+
+
+        ArrayList columns = node.getColumns();
+        columns.remove(node.getColname());
+
+        if( node.gini1==0 || node.depth==2 || columns.size()==0){
+            System.out.println("creating Left leaf " + node.list1);
+            node.Left = new Node.Leaf(node.list1);
+        }
+        else{
+            System.out.println("creating Left dec " + node.list1);
+            node.Left = new Node.Decision(node.list1, columns, node.depth-1);
+            GrowTree((Node.Decision) node.Left);
+        }
+        if( node.gini2==0 || node.depth==2 || columns.size()==0){
+            System.out.println("creating right leaf " + node.list2);
+            node.Right = new Node.Leaf(node.list2);
+        }
+        else{
+            System.out.println("creating right dec " + node.list2);
+            node.Right = new Node.Decision(node.list2, columns, node.depth-1);
+            GrowTree((Node.Decision) node.Right);
+
+        }
+        return;
+    }
+
+    public void hoduj() throws Exception {
+        head = new Node.Decision(Indexes, colnames, max_depth);
+        GrowTree(head);
+    }
 /*
-    //@ToDo
-    DecisionTree GrowTree(Node head,ArrayList<Integer> indexes, ArrayList<String> colnames, int max_depth){
-
-    }
-
     //to dla użytkownika, aby nie musiał podawać head, tylko tworzyć drzewko bez niczego
     DecisionTree GrowTree() {
         return GrowTree(head, Indexes, colnames, max_depth);
