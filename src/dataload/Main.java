@@ -12,14 +12,13 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-       csvToDataFrame csv2df = new csvToDataFrame("split_gini_test.csv",",");
+       csvToDataFrame csv2df = new csvToDataFrame("test.csv",",");
        DataFrame test = csv2df.convertToDataFrame();
        test.convertToNumeric();
        test.setToPredict("HasCancer");
 
        Gini gini = new Gini(test);
        ArrayList<Integer> inds = new ArrayList<>();
-        inds.add(10);
         inds.add(2);
         inds.add(5);
         inds.add(3);
@@ -30,18 +29,15 @@ public class Main {
         inds.add(5);
         inds.add(5);
         inds.add(2);
-        inds.add(12);
-
-
 
 
         ArrayList<String> cols = new ArrayList<>();
         cols.add("Wealth");
         cols.add("Sex");
-        cols.add("Sex");
-        cols.add("eyes");
-        DecisionTree dt = new DecisionTree(test, inds, cols, 5);
+        cols.add("Age");
+        DecisionTree dt = new DecisionTree(test, inds, cols, 2);
         dt.hoduj();
+        System.out.println(dt.search(7));
 
 
 

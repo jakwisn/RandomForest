@@ -37,7 +37,7 @@ public class Gini {
         }
 
         double sum = 0;
-        double numberOfOccurances= 0;
+        double numberOfOccurances;
         for (int uniqueValue:unique){
             numberOfOccurances =  count.get(uniqueValue);
             sum += pow(numberOfOccurances/giniValues.size(),2) ;

@@ -4,7 +4,6 @@ import dataload.DataFrame;
 import gini.Gini;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 public class DecisionTree {
 
@@ -160,11 +159,11 @@ public class DecisionTree {
             GrowTree((Node.Decision) node.Left);
         }
         if( node.gini2==0 || node.depth==2 || columns.size()==0){
-            System.out.println("creating right leaf " + node.list2);
+            System.out.println("creating Right leaf " + node.list2);
             node.Right = new Node.Leaf(node.list2);
         }
         else{
-            System.out.println("creating right dec " + node.list2);
+            System.out.println("creating Right dec " + node.list2);
             node.Right = new Node.Decision(node.list2, columns, node.depth-1);
             GrowTree((Node.Decision) node.Right);
 
@@ -173,9 +172,33 @@ public class DecisionTree {
     }
 
     public void hoduj() throws Exception {
+        System.out.println("Growing tree...");
         head = new Node.Decision(Indexes, colnames, max_depth);
+        System.out.println("Head: " + head.getIndexes());
         GrowTree(head);
+        System.out.println("Tree created succesfully!");
     }
+
+    public double search(int indexToFind) throws Exception {
+        Node curNode = head;
+        String col;
+        while(curNode instanceof Node.Decision){
+            col = ((Node.Decision) curNode).getColname();
+            if(dataFrame.getColumn(col).get(indexToFind) < ((Node.Decision) curNode).getVal()){
+                curNode = ((Node.Decision) curNode).getLeft();
+            }
+            else curNode = ((Node.Decision) curNode).getRight();
+        }
+        ArrayList<Integer> indexes = curNode.Indexes;
+        System.out.println(indexes);
+        ArrayList<Integer> vals = new ArrayList<>();
+        double ones=0;
+        for (int i=0; i<indexes.size(); i++){
+            if (dataFrame.getValuesToPredict().get(indexes.get(i)) == 1) ones++;
+        }
+        return ones/indexes.size();
+    }
+
 /*
     //to dla użytkownika, aby nie musiał podawać head, tylko tworzyć drzewko bez niczego
     DecisionTree GrowTree() {
