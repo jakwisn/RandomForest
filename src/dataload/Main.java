@@ -35,8 +35,8 @@ public class Main {
         cols.add("Wealth");
         cols.add("Sex");
         cols.add("Age");
-        DecisionTree dt = new DecisionTree(test, inds, cols, 2);
-        dt.hoduj();
+        DecisionTree dt = new DecisionTree(test, inds, cols, 3);
+        dt.grow();
         System.out.println(dt.search(7));
 
 

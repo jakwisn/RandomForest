@@ -11,10 +11,9 @@ public class GiniTests {
     @org.junit.Test
     public void Gini0() throws Exception {
 
-        csvToDataFrame csv2df = new csvToDataFrame("test.csv",",");
+        csvToDataFrame csv2df = new csvToDataFrame("test1.csv",",");
         DataFrame test = csv2df.convertToDataFrame();
         test.convertToNumeric();
-
 
         test.setToPredict("Sex");
         Gini gini = new Gini(test);
@@ -29,10 +28,9 @@ public class GiniTests {
     @org.junit.Test
     public void Gini05() throws Exception {
 
-        csvToDataFrame csv2df = new csvToDataFrame("test.csv",",");
+        csvToDataFrame csv2df = new csvToDataFrame("test1.csv",",");
         DataFrame test = csv2df.convertToDataFrame();
         test.convertToNumeric();
-
 
         test.setToPredict("Sex");
         Gini gini = new Gini(test);
@@ -48,7 +46,7 @@ public class GiniTests {
     @org.junit.Test
     public void GiniMoreClasses() throws Exception {
 
-        csvToDataFrame csv2df = new csvToDataFrame("test.csv",",");
+        csvToDataFrame csv2df = new csvToDataFrame("test1.csv",",");
         DataFrame test = csv2df.convertToDataFrame();
         test.convertToNumeric();
 

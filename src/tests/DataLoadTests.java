@@ -12,7 +12,7 @@ public class DataLoadTests {
     @org.junit.Test
     public void DataFrameGetColumns() throws Exception {
 
-        csvToDataFrame csv2df = new csvToDataFrame("test.csv",",");
+        csvToDataFrame csv2df = new csvToDataFrame("test1.csv",",");
         DataFrame test = csv2df.convertToDataFrame();
 
         List<String> data1 = new ArrayList<>();
@@ -37,7 +37,7 @@ public class DataLoadTests {
 
     @org.junit.Test
     public void ReadColumnsFile() throws Exception {
-        csvToDataFrame csv2df = new csvToDataFrame("test.csv",",");
+        csvToDataFrame csv2df = new csvToDataFrame("test1.csv",",");
         ArrayList<String> colnames = csv2df.getColnames();
 
         Assert.assertEquals("Name",colnames.get(2));
@@ -47,7 +47,7 @@ public class DataLoadTests {
 
     @org.junit.Test
     public void DataFrameGetColnames() throws Exception {
-        csvToDataFrame csv2df = new csvToDataFrame("test.csv",",");
+        csvToDataFrame csv2df = new csvToDataFrame("test1.csv",",");
         DataFrame test = csv2df.convertToDataFrame();
         ArrayList<String> colnames = test.getColnames();
 
@@ -58,7 +58,7 @@ public class DataLoadTests {
 
     @org.junit.Test
     public void GetDataFrame() throws Exception {
-        csvToDataFrame csv2df = new csvToDataFrame("test.csv",",");
+        csvToDataFrame csv2df = new csvToDataFrame("test1.csv",",");
         DataFrame test = csv2df.convertToDataFrame();
         HashMap<String, ArrayList> df = test.getDataFrame();
 
@@ -111,7 +111,7 @@ public class DataLoadTests {
 
     @org.junit.Test
     public void ReadNumericColumn() throws Exception {
-        csvToDataFrame csv2df = new csvToDataFrame("test.csv",",");
+        csvToDataFrame csv2df = new csvToDataFrame("test1.csv",",");
         DataFrame df = csv2df.convertToDataFrame();
         df.convertToNumeric();
         System.out.println(df.getColumn("Age").get(1));
@@ -134,7 +134,7 @@ public class DataLoadTests {
 
     @org.junit.Test(expected = CustomException.class)
     public void ConvertFileWithMixedColumns() throws Exception {
-        csvToDataFrame csv2df = new csvToDataFrame("test1.csv",",");
+        csvToDataFrame csv2df = new csvToDataFrame("test2.csv",",");
         DataFrame test = csv2df.convertToDataFrame();
     }
 

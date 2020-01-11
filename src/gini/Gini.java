@@ -24,7 +24,7 @@ public class Gini {
         ArrayList<Integer> unique = new ArrayList<>();
         HashMap<Integer, Integer> count = new HashMap<>();
 
-        // if there is no iteger like this add
+        // if there is no integer like this add
         // count all integers
         for (int integer:giniValues) {
             if (!unique.contains(integer)) {

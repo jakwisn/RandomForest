@@ -132,14 +132,4 @@ public class csvToDataFrame {
 
         return ColumnsArray;
     }
-
-    private boolean isNumber(String myString){
-        try {
-            double d = Double.parseDouble(myString);
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
-    }
-
 }
