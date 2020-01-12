@@ -41,7 +41,7 @@ Obsługuje wyjątki gdy plik jest pusty oraz gdy nie ma rozszerzenia csv.
 >   ***setToPredict(String colname)***  
 >      Oznacza kolumnę jako tą, na której będziemy trenować, a później przewidywać
 
->   ***getValuesToPredict()*** 
+>   ***getValuesToPredict()***    
 >      Zwraca nam kolumnę, którą będziemy w przyszłości przewidywać. W szczególności wykorzystywane przy liczeniu indeksu Gini.
 
 
@@ -57,25 +57,25 @@ Do konstruktora potrzebuje ramki danych DataFrame z określoną wcześniej kolum
 >       Dla danych indeksów rzędów (a dokładniej dla kolumny toPredict) liczy indeks Gini. Zwraca liczbę zmiennoprzecinkową od 0 do 1.
 
 
-**Klasa Node**
+**Klasa Node**    
   Klasa odpowiada za tworzenie węzłów przy budowaniu drzewa. Węzły są decyzyjne (Node.Decision) i jako liście (Node.Leaf), stworzone jako klasy wewnętrzne klasy Node. Leaf zawiera jedynie indeksy jakie wpadają do niego, a Decision: indeksy, nazwy kolumn jakie zostały do podziału, nazwę kolumny, której podziału dotyczy węzeł, prawe i lewe dziecko, wartość podziału, głębokość drzewa na danym poziomie oraz dwie listy i wartości indeksu gini dla .... . Decision posiada gettery i settery.
   
-**Klasa DecisionTree**
+**Klasa DecisionTree**   
   Klasa odpowiada za tworzenie drzew. Korzysta ona ze wszystkich dotychczasowych napisanych funkcji. Drzewo składa się z głowy (head), węzłów decyzyjnych (Node.Decision) i liści (Node.Leaf). Rośnie rekurencyjnie. Do jego stworzenia potrzeba ramki danych DataFrame z ustawioną kolumną do przewidywania (setToPredict), wybranych indeksów i kolumn oraz maksymalnej głębokości drzewa. 
 
->    ***findBestSplit(ArrayList<String> colnames, ArrayList<Integer> indexes , Gini gini)***
+>    ***findBestSplit(ArrayList<String> colnames, ArrayList<Integer> indexes , Gini gini)***    
 >     Metoda znajduje najlepszy split (punkt splitu) ze wszystkich danych kolumn i ich indeksów, zwraca listę zawierającą nazwę kolumny i wartość, która to ma najlepszy podział zmiennych - korzysta z metody split.
 
->   ***split(String colname,ArrayList<Integer> indexes, Gini gini)***
+>   ***split(String colname,ArrayList<Integer> indexes, Gini gini)***     
 >     Dla danej kolumny i indeksów znajduje najlepszy punkt podziału zmiennych - posiadający najlepszy indeks Gini. Zwraca listę zawierającą wartość splitu i index dla niego.
 
->   ***GrowTree(Node.Decision node)***
+>   ***GrowTree(Node.Decision node)***    
 >     Rekursywna metoda tworzenia drzewa.
 
->   ***CultureTree()***
+>   ***CultureTree()***     
 >     Tworzy head drzewa a potem drzewo korzystając z metody GrowTree.
 
->   ***search(int indexToFind)***
+>   ***search(int indexToFind)***     
 >     Przeszukuje drzewo, aby znaleźć liść z indexem jaki podajemy do metody. Zwraca prawdopodobieństko, że przewidywana wartość wynosi 1 w oparciu o poprzednie obserwacje
 
 
