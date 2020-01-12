@@ -8,7 +8,7 @@ public class DataFrame {
     private HashMap<String,ArrayList> dataFrame;
     private ArrayList<String> colnames ;
     private String colnameToPredict = null;
-    private ArrayList<Integer> valuesToPredict;
+    private ArrayList<Integer> valuesToPredict = null;
 
     public DataFrame(HashMap<String, ArrayList> dataFrame , ArrayList<String> colnames) {
         this.dataFrame = dataFrame;
@@ -67,9 +67,9 @@ public class DataFrame {
             ArrayList<Double> doubles = dataFrame.get(colname);
             ArrayList<Integer> integers = new ArrayList<>();
 
-            for (int i = 0 ; i<doubles.size(); i++){
-                    integers.add((int) Math.round(doubles.get(i)));
-                }
+            for (Double aDouble : doubles) {
+                integers.add((int) Math.round(aDouble));
+            }
 
             this.valuesToPredict = integers;
         }
@@ -115,9 +115,6 @@ public class DataFrame {
                     }
                     // set values of df to numeric ones
                     dataFrame.replace(colname,integers);
-
-                    // reset strings after iteration
-                    strings = new ArrayList<>();
             }
         }
 
