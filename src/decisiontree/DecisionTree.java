@@ -7,9 +7,7 @@ import java.util.*;
 
 public class DecisionTree {
 
-    int min_observation = 2;
-
-    Node.Decision head;
+    Node head;
     static ArrayList<String> colnames;
     ArrayList<Integer> Indexes;
     int max_depth;
@@ -26,14 +24,22 @@ public class DecisionTree {
     }
 
 
-    //@ToDo
-    //jakas funckja na wszystkich danych kolumnach, licząca najmniejsze gini i zwracajaca dana kolumne
-    //potem na tej kolumnie robimy split
-    // znalezc dobre kryterium wyboru kolumny
-    public static ArrayList findColToSplit(ArrayList<String> colnames, ArrayList<Integer> indexes , Gini gini) throws Exception {
-        // Zwraca Arraylista (Nazwa kolumny, Wartość po której splitujemy)
+    // method checks indexes
+    // if index don't appear in the dataframe then method return exception
+    private void CheckIndexes() throws Exception {
+        int max_index = dataFrame.getColumn(dataFrame.getColnames().get(0)).size();
+        for(int i : Indexes){
+            if(i > max_index){
+                throw new Exception("In DataFrame there is no index " + i);
+            }
+        }
+    }
 
-        double bestGiniSplit= 9;
+    // method finds the best split point from all given columns and their indexes
+    // returns Arraylist of 2: column name and split value
+    public static ArrayList findBestSplit(ArrayList<String> colnames, ArrayList<Integer> indexes , Gini gini) throws Exception {
+
+        double bestGiniSplit= 10;
         int bestSplit = 0;
         String bestCol = "";
         for (String colname:colnames){
@@ -56,26 +62,18 @@ public class DecisionTree {
 
     }
 
-
-
-    // dla node znajduje najlepszy punkt splitu
-    public static ArrayList split(String colname,ArrayList<Integer> indexes, Gini gini) throws Exception {
+    // method finds best split point in a particular column
+    // used by findBestSplit()
+    private static ArrayList split(String colname,ArrayList<Integer> indexes, Gini gini) throws Exception {
         ArrayList<Double> fullList = dataFrame.getColumn(colname);
         ArrayList<Double> list = new ArrayList<>();
-
-        ArrayList<Integer> integers = new ArrayList<>();
-        for (int i=0 ; i< indexes.size(); i++){
-
-        }
-
-
-        for (int i:indexes){
-            list.add(fullList.get(i));
-        }
+        for (int i:indexes){list.add(fullList.get(i));}
 
         int bestSplitIndex = 0;
         ArrayList listPart1 = new ArrayList();
         ArrayList listPart2 = new ArrayList();
+
+        // check split on value of each index
         for (int i=0;i<indexes.size();i++){
             if (fullList.get(indexes.get(i))<fullList.get(indexes.get(0))){
                 listPart1.add(indexes.get(i));
@@ -85,9 +83,10 @@ public class DecisionTree {
             }
         }
 
+        // comparing splits by weighted arithmetic mean with weights being numbers of elements in both splits
         double gini1 = gini.calculateGiniIndex(listPart1);
         double gini2 = gini.calculateGiniIndex(listPart2);
-        double bestSplitValue = (gini1*listPart1.size()+gini2*listPart2.size())/(list.size());
+        double bestSplitValue = (gini1*listPart1.size()+gini2*listPart2.size())/(indexes.size());
 
         for (int i=1;i<list.size();i++){
             listPart1 = new ArrayList();
@@ -103,6 +102,8 @@ public class DecisionTree {
 
             gini1 = gini.calculateGiniIndex(listPart1);
             gini2 = gini.calculateGiniIndex(listPart2);
+
+            // adding "penalty" to the split value if one of its parts is empty
             double x;
             if (listPart1.size()*listPart2.size()==0) x = 1;
             else x = 0;
@@ -112,29 +113,27 @@ public class DecisionTree {
             }
         }
 
-
-
         ArrayList toReturn = new ArrayList();
         toReturn.add(bestSplitValue);
         toReturn.add(bestSplitIndex);
         return toReturn;
     }
 
-
-    void GrowTree(Node.Decision node) throws Exception {
-        ArrayList bestSplit = findColToSplit( node.getColumns(), node.getIndexes(), gini);
+    // recursive method building tree from given node; called by grow() method
+    private void GrowTree(Node.Decision node) throws Exception {
+        // finds best split and saves it as node field
+        ArrayList bestSplit = findBestSplit( node.getColumns(), node.getIndexes(), gini);
         node.setVal((double)bestSplit.get(1));
         node.setColname((String)bestSplit.get(0));
 
+        // divide indexes according to best split
         ArrayList list1 = new ArrayList();
         ArrayList list2 = new ArrayList();
         for (int i=0; i<node.Indexes.size(); i++){
-           if (dataFrame.getColumn(node.getColname()).get(node.Indexes.get(i)) >= node.val){
-               list2.add(node.Indexes.get(i));
-           }
-           else{
-               list1.add(node.Indexes.get(i));
-           }
+            if (dataFrame.getColumn(node.getColname()).get(node.Indexes.get(i)) >= node.val){
+                list2.add(node.Indexes.get(i));
+            }
+            else{list1.add(node.Indexes.get(i));}
         }
 
         node.gini1 = gini.calculateGiniIndex(list1);
@@ -143,11 +142,10 @@ public class DecisionTree {
         node.list1 = list1;
         node.list2 = list2;
 
-
-
         ArrayList columns = node.getColumns();
         columns.remove(node.getColname());
 
+        // create node's children ang grow tree recursively
         if( node.gini1==0 || node.depth==2 || columns.size()==0){
             System.out.println("creating Left leaf " + node.list1);
             node.Left = new Node.Leaf(node.list1);
@@ -158,21 +156,64 @@ public class DecisionTree {
             GrowTree((Node.Decision) node.Left);
         }
         if( node.gini2==0 || node.depth==2 || columns.size()==0){
-            System.out.println("creating right leaf " + node.list2);
+            System.out.println("creating Right leaf " + node.list2);
             node.Right = new Node.Leaf(node.list2);
         }
         else{
-            System.out.println("creating right dec " + node.list2);
+            System.out.println("creating Right dec " + node.list2);
             node.Right = new Node.Decision(node.list2, columns, node.depth-1);
             GrowTree((Node.Decision) node.Right);
 
         }
-        return;
     }
 
+    // grow tree, soon possibly added to DecisionTree constructor
     public void CultureTree() throws Exception {
-        head = new Node.Decision(Indexes, colnames, max_depth);
-        GrowTree(head);
+
+        for(String col : colnames){
+            if (!dataFrame.getColnames().contains(col)){
+                throw new Exception("In DataFrame there is no column named: " + col);
+            }
+        }
+        CheckIndexes();
+
+        System.out.println("Growing tree...");
+        //when somebody gives max_depth == 1 then the tree only has a head
+        if(max_depth == 1){
+            head = new Node.Leaf(Indexes);
+            System.out.println("Head: " + ((Node.Leaf) head).getIndexes());
+        }else {
+            head = new Node.Decision(Indexes, colnames, max_depth);
+            System.out.println("Head: " + ((Node.Decision) head).getIndexes());
+            GrowTree((Node.Decision) head);
+        }
+        System.out.println("Tree created succesfully!");
+    }
+
+    // searches grown tree with given dataFrame index
+    // returns probability that value predicted is 1, based on previous observations
+    public double search(int indexToFind) throws Exception {
+
+        CheckIndexes();
+
+        Node curNode = head;
+        String col;
+        // go to tree's leaf
+        while(curNode instanceof Node.Decision){
+            col = ((Node.Decision) curNode).getColname();
+            if(dataFrame.getColumn(col).get(indexToFind) < ((Node.Decision) curNode).getVal()){
+                curNode = ((Node.Decision) curNode).getLeft();
+            }
+            else curNode = ((Node.Decision) curNode).getRight();
+        }
+        ArrayList<Integer> indexes = curNode.Indexes;
+        System.out.println(indexes);
+        // counts number of ones in the leaf
+        double ones=0;
+        for (int i=0; i<indexes.size(); i++){
+            if (dataFrame.getValuesToPredict().get(indexes.get(i)) == 1) ones++;
+        }
+        return ones/indexes.size();
     }
 
 }

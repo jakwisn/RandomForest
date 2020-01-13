@@ -23,7 +23,7 @@ public class DataFrame {
 
     public void setColnames(ArrayList<String> colnamesToChange) throws Exception {
         if (colnames.size() != colnamesToChange.size()){
-            throw new Exception("Złe wymiary list: " + colnames.size() + " oraz " + colnamesToChange.size() + " nie są równe");
+            throw new Exception("Wrong size list: " + colnames.size() + " and " + colnamesToChange.size() + " are not equal");
         }
 
         for (int i=0 ; i<colnamesToChange.size(); i++){
@@ -33,10 +33,10 @@ public class DataFrame {
 
     public void setColname(String oldName, String newName) throws Exception {
         if (!colnames.contains(oldName)){
-            throw new Exception("Nie ma takiej kolumny w ramce danych: " + oldName);
+            throw new Exception("In DataFrame there is no column named: " + oldName);
         }
         if (colnames.contains(newName)){
-            throw new Exception("Już jest taka kolumna w rance danych " + newName);
+            throw new Exception("There is already a column in the DataFrame named: " + newName);
         }
         colnames.set(colnames.indexOf(oldName),newName);
         ArrayList tmp = dataFrame.get(oldName);
@@ -50,14 +50,14 @@ public class DataFrame {
 
     public ArrayList<Double> getColumn(String name) throws Exception {
         if (!colnames.contains(name)){
-            throw new Exception("Nie ma takiej kolumny w ramce danych: " + name);
+            throw new Exception("In DataFrame there is no column named: " + name);
         }
         return dataFrame.get(name);
     }
 
     public void setToPredict(String colname) throws Exception {
             if (!colnames.contains(colname)){
-                throw new Exception("In DataFrame there is no column named " + colname);
+                throw new Exception("In DataFrame there is no column named: " + colname);
             }
 
             // set as predicted one

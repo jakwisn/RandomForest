@@ -138,6 +138,13 @@ public class DataLoadTests {
         DataFrame test = csv2df.convertToDataFrame();
     }
 
+    @org.junit.Test(expected = Exception.class)
+    public void NoColumnInDataFrame() throws Exception {
+        csvToDataFrame csv2df = new csvToDataFrame("test.csv",",");
+        DataFrame test = csv2df.convertToDataFrame();
+        test.convertToNumeric();
+        test.setToPredict("noname");
+    }
 
 
 

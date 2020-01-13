@@ -6,9 +6,6 @@ public class Node {
 
     ArrayList<Integer> Indexes;
 
-    public Node() {
-    }
-
     public static class Decision extends Node {
 
         int depth;
@@ -21,7 +18,6 @@ public class Node {
         double gini2;
         ArrayList<Integer> list1 ;
         ArrayList<Integer> list2;
-
 
         public Decision(ArrayList<Integer> Indexes, ArrayList<String> columns, int depth) {
             this.Indexes = Indexes;
@@ -67,9 +63,7 @@ public class Node {
             return val;
         }
 
-        public ArrayList<Integer> getIndexes() {
-            return Indexes;
-        }
+        public ArrayList<Integer> getIndexes() { return Indexes; }
 
         public void setDepth(int depth) { this.depth = depth; }
 
@@ -84,6 +78,12 @@ public class Node {
         public Leaf(ArrayList<Integer> Indexes) {
             this.Indexes = Indexes;
         }
+
+        public ArrayList<Integer> getIndexes() {
+            return Indexes;
+        }
     }
+
+
 
 }

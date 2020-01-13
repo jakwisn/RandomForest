@@ -12,38 +12,25 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-       csvToDataFrame csv2df = new csvToDataFrame("split_gini_test.csv",",");
-       DataFrame test = csv2df.convertToDataFrame();
-       test.convertToNumeric();
-       test.setToPredict("HasCancer");
 
-       Gini gini = new Gini(test);
-       ArrayList<Integer> inds = new ArrayList<>();
-        inds.add(10);
+        csvToDataFrame csv2df = new csvToDataFrame("test.csv",",");
+        DataFrame test = csv2df.convertToDataFrame();
+        test.convertToNumeric();
+        test.setToPredict("HasCancer");
+
+        ArrayList<Integer> inds = new ArrayList<>();
         inds.add(2);
-        inds.add(5);
         inds.add(3);
-        inds.add(2);
-        inds.add(4);
-        inds.add(7);
         inds.add(6);
-        inds.add(5);
-        inds.add(5);
-        inds.add(2);
-        inds.add(12);
-
-
-
 
         ArrayList<String> cols = new ArrayList<>();
+        //wszystkie kolumny mają taki sam split, ale findBestSplit zwraca pierwszą sprawdzaną - potem przy tworzeniu drzewa wyrzuca wyjątek
+        //należy poprawić
+        cols.add("Sex");
         cols.add("Wealth");
-        cols.add("Sex");
-        cols.add("Sex");
-        cols.add("eyes");
-        DecisionTree dt = new DecisionTree(test, inds, cols, 5);
-        dt.CultureTree();
-
-
-
+        cols.add("Age");
+        DecisionTree dt = new DecisionTree(test, inds, cols, 3);
+        Gini gini = new Gini(test);
+        System.out.println(dt.findBestSplit(cols, inds, gini));
     }
 }
