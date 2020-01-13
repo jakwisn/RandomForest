@@ -50,7 +50,6 @@ public class csvToDataFrame {
 
             for (int i =0;i < ColumnsArray.size(); i++){
                 // for each line put all the values in hashmap
-
                 hashMap.get(ColumnsArray.get(i)).add(values[i]);
             }
             line = br.readLine();

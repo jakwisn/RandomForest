@@ -190,7 +190,7 @@ public class DecisionTree {
     }
 
     // searches grown tree with given dataFrame index
-    // returns probability that value predicted is 1, based on previous observations
+    // returns probability that value predicted is the same that this of index, based on previous observations
     public double search(int indexToFind) throws Exception {
 
         CheckIndexes();
@@ -208,11 +208,11 @@ public class DecisionTree {
         ArrayList<Integer> indexes = curNode.Indexes;
         System.out.println(indexes);
         // counts number of ones in the leaf
-        double ones=0;
+        double theSame=0;
         for (int i=0; i<indexes.size(); i++){
-            if (dataFrame.getValuesToPredict().get(indexes.get(i)) == 1) ones++;
+            if (dataFrame.getValuesToPredict().get(indexes.get(i)) == dataFrame.getValuesToPredict().get(indexToFind)) theSame++;
         }
-        return ones/indexes.size();
+        return theSame/indexes.size();
     }
 
 }

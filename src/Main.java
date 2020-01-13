@@ -13,21 +13,24 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        csvToDataFrame csv2df = new csvToDataFrame("test.csv",",");
+        csvToDataFrame csv2df = new csvToDataFrame("data.csv",",");
         DataFrame test = csv2df.convertToDataFrame();
         test.convertToNumeric();
-        test.setToPredict("HasCancer");
+        test.setToPredict("quality");
 
         ArrayList<Integer> inds = new ArrayList<>();
-        inds.add(2);
-        inds.add(3);
-        inds.add(6);
-
+        for (int i=0; i<test.getColumn("quality").size();i++){
+            inds.add(i);
+        }
         ArrayList<String> cols = new ArrayList<>();
-        cols.add("Sex");
-        cols.add("Wealth");
-        cols.add("Age");
-        DecisionTree dt = new DecisionTree(test, inds, cols, 3);
+        for (String s:test.getColnames()){
+            cols.add(s);
+        }
+
+
+        DecisionTree dt = new DecisionTree(test, inds, cols, 9);
         dt.CultureTree();
+
+        System.out.println(dt.search(1));
     }
 }
