@@ -25,9 +25,9 @@ public class DecisionTree {
 
 
     // method checks indexes
-    // if index don't appear in the dataframe then method return exception
+    // if index doesn't appear in the dataFrame then method returns exception
     private void CheckIndexes() throws Exception {
-        int max_index = dataFrame.getColumn(dataFrame.getColnames().get(0)).size();
+        int max_index = dataFrame.getColumn(dataFrame.getColnames().get(0)).size() - 1;
         for(int i : Indexes){
             if(i > max_index){
                 throw new Exception("In DataFrame there is no index " + i);
@@ -163,7 +163,6 @@ public class DecisionTree {
             System.out.println("creating Right dec " + node.list2);
             node.Right = new Node.Decision(node.list2, columns, node.depth-1);
             GrowTree((Node.Decision) node.Right);
-
         }
     }
 
@@ -179,10 +178,10 @@ public class DecisionTree {
 
         System.out.println("Growing tree...");
         //when somebody gives max_depth == 1 then the tree only has a head
-        if(max_depth == 1){
+        if(max_depth == 1 || gini.calculateGiniIndex(Indexes) == 0){
             head = new Node.Leaf(Indexes);
             System.out.println("Head: " + ((Node.Leaf) head).getIndexes());
-        }else {
+        } else {
             head = new Node.Decision(Indexes, colnames, max_depth);
             System.out.println("Head: " + ((Node.Decision) head).getIndexes());
             GrowTree((Node.Decision) head);

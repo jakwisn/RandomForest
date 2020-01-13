@@ -119,7 +119,7 @@ public class DecisionTreeTests {
 
         ArrayList<String> cols = new ArrayList<>();
         cols.add("Wealth");
-        cols.add("noexistcolumn");
+        cols.add("noexistingcolumn");
         cols.add("Age");
 
         DecisionTree dt = new DecisionTree(test, inds, cols, 3);
