@@ -12,10 +12,9 @@ start: 9 grudnia 2019
 Cele projektu, jego krótka charakterystyka i opis podziału pracy zostały zawarte w pliku Konspekt.pdf. Projekt będzie realizowany zgodnie z zawartymi tam informacjami. Zaleca się zapoznanie z nim.
 
 ### @ToDo
-
 PAKIET DECISIONTREE:
-- Zrobić specjalne Exception'y do testów.
-- Co robimy z tym z min_obs (pewnie wyskoczy do poprawek przy testach)
+- Zrobić testy dla metody findBestSplit() [i zarazem split()]
+- możliwe, że wiąże się z poprzednim - jeden test nie działa, jak podajemy wartości, które mają takie same wartości w przewidywanej kolumnie to head powinien być liściem
 
 ### Done : 
 **Klasa csvToDataFrame**    
