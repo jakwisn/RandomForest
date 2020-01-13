@@ -24,13 +24,10 @@ public class Main {
         inds.add(6);
 
         ArrayList<String> cols = new ArrayList<>();
-        //wszystkie kolumny mają taki sam split, ale findBestSplit zwraca pierwszą sprawdzaną - potem przy tworzeniu drzewa wyrzuca wyjątek
-        //należy poprawić
         cols.add("Sex");
         cols.add("Wealth");
         cols.add("Age");
         DecisionTree dt = new DecisionTree(test, inds, cols, 3);
-        Gini gini = new Gini(test);
-        System.out.println(dt.findBestSplit(cols, inds, gini));
+        dt.CultureTree();
     }
 }

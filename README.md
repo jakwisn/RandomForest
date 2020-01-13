@@ -12,9 +12,12 @@ start: 9 grudnia 2019
 Cele projektu, jego krótka charakterystyka i opis podziału pracy zostały zawarte w pliku Konspekt.pdf. Projekt będzie realizowany zgodnie z zawartymi tam informacjami. Zaleca się zapoznanie z nim.
 
 ### @ToDo
-PAKIET DECISIONTREE:
-- Zrobić testy dla metody findBestSplit() [i zarazem split()]
-- możliwe, że wiąże się z poprzednim - jeden test nie działa, jak podajemy wartości, które mają takie same wartości w przewidywanej kolumnie to head powinien być liściem
+
+Teraz punkt 7 z konspektu, wziąć jakieś większe dane niż mamy do tego, powoli wkraczamy w las
+
+Dodatkowo:
+- Można zrobić testy oddzielnie dla metody findBestSplit() w DecisionTreeTests
+- Nie ma testów dla braków danych, trzeba sprawdzić jak się zachowuje algorytm, gdy na to na trafi i pewnie coś dopisać
 
 ### Done : 
 **Klasa csvToDataFrame**    
