@@ -5,6 +5,7 @@ import decisiontree.DecisionTree;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.HashMap;
 
 public class RandomForest {
     int height;
@@ -25,21 +26,53 @@ public class RandomForest {
 
     //chcemy gdzies sprawdzac co przewiduje - czy ma ustawione - moze w train()
 
-    /*
-    private ArrayList<DataFrame> DivisionData(){
+    private ArrayList<DataFrame> DivisionData() throws Exception {
 
-        //korzystamy z DiviosionPercentage i dzielimy DataFrame
+        ArrayList<String> colnames = dataFrame.getColnames();
+        int AllRowIndexes = dataFrame.getColumn(colnames.get(0)).size();
 
+        int MaxRowForTrainingData = (int) Math.floor(DivisionPercentage/100 * AllRowIndexes);
 
+        HashMap<String, ArrayList> data = dataFrame.getDataFrame();
+        HashMap<String, ArrayList> trainingData = new HashMap<>();
+        HashMap<String, ArrayList> testingData = new HashMap<>();
+
+        if(DivisionPercentage >= 50.0){
+            for(String column : colnames){
+                ArrayList<Integer> trainingRows = data.get(column);
+                ArrayList<Integer> testingRows = new ArrayList<>();
+                for(int i = MaxRowForTrainingData+1; i < AllRowIndexes; i++){
+                    testingRows.add(trainingRows.remove(MaxRowForTrainingData+1));
+                }
+                trainingData.put(column, trainingRows);
+                testingData.put(column, testingRows);
+        }
+        }else{
+            for(String column : colnames){
+                ArrayList<Integer> testingRows = data.get(column);
+                ArrayList<Integer> trainingRows = new ArrayList<>();
+                for(int i = 0; i <= MaxRowForTrainingData; i++){
+                    trainingRows.add(testingRows.remove(0));
+                }
+                trainingData.put(column, trainingRows);
+                testingData.put(column, testingRows);
+            }
+        }
+
+        ArrayList<DataFrame> listOfData = new ArrayList<>();
+        DataFrame training = new DataFrame(trainingData, colnames);
+        DataFrame testing = new DataFrame(testingData, colnames);
+
+        listOfData.add(training);
+        listOfData.add(testing);
+        return listOfData;
     }
-*/
+
     public ArrayList<DecisionTree> train() throws Exception {
 
         if (dataFrame.getColnameToPredict() == null ) {
             throw new Exception("Colname to predict has not been set!");
         }
-
-        //chcemy wybierac kolumny oprocz tej do przewidywania - losowo
 
         // Our target forest:
         ArrayList<DecisionTree> forest = new ArrayList<>();
