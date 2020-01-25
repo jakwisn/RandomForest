@@ -2,6 +2,7 @@ package randomforest;
 
 import dataload.DataFrame;
 import decisiontree.DecisionTree;
+import decisiontree.Node;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -14,6 +15,7 @@ public class RandomForest {
     double columnPercentage;
     double DivisionPercentage;
     int number_of_trees;
+    ArrayList<DecisionTree> trees ;
 
     public RandomForest(int height, DataFrame dataFrame, double rowPercentage, double columnPercentage, double DivisionPercentage, int number_of_trees) {
         this.height = height;
@@ -22,6 +24,7 @@ public class RandomForest {
         this.columnPercentage = columnPercentage;
         this.DivisionPercentage = DivisionPercentage;
         this.number_of_trees = number_of_trees;
+        this.trees = trees;
     }
 
     //chcemy gdzies sprawdzac co przewiduje - czy ma ustawione - moze w train()
@@ -68,7 +71,7 @@ public class RandomForest {
         return listOfData;
     }
 
-    public ArrayList<DecisionTree> train() throws Exception {
+    public void train() throws Exception {
 
         if (dataFrame.getColnameToPredict() == null ) {
             throw new Exception("Colname to predict has not been set!");
@@ -76,11 +79,16 @@ public class RandomForest {
 
         // Our target forest:
         ArrayList<DecisionTree> forest = new ArrayList<>();
+
+        // empty arrays
         ArrayList<Integer> indexes = new ArrayList<>();
         ArrayList<String> colnames = new ArrayList<>();
+
+        // getting size of rows and columns
         int rowSize = dataFrame.getValuesToPredict().size();
         int colSize = dataFrame.getColnames().size();
 
+        // array of columns without the one to predict
         ArrayList<String> colnamesToPickFrom = new ArrayList<>();
 
         for (String col:dataFrame.getColnames()) {
@@ -89,6 +97,7 @@ public class RandomForest {
         }
         Random random = new Random();
 
+        // growing trees
         int index = 0 ;
         String colname;
         for (int i = 0; i < number_of_trees;  i++) {
@@ -98,22 +107,28 @@ public class RandomForest {
                indexes.add(index);
             }
 
+
             for (i = 0 ; i < columnPercentage*colSize/100; i++) {
                 colname = colnamesToPickFrom.get(random.nextInt(colnamesToPickFrom.size()));
                 colnames.add(colname);
             }
-
+            // with random colnames and rows lets grow tree
             DecisionTree decisionTree = new DecisionTree(dataFrame,indexes,colnames,height);
             decisionTree.CultureTree();
             forest.add(decisionTree);
         }
 
-        return forest;
+        this.trees = forest;
 
     }
-/*
-    public double test(){
 
+    public int test1(int indexToPredict) throws Exception {
+        ArrayList<Integer> doms = new ArrayList<>();
+        for (int i=0; i<trees.size();i++){
+            doms.add(trees.get(i).search(indexToPredict));
+        }
+        return(trees.get(0).dominant(doms));
     }
-*/
+
 }
+

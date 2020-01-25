@@ -191,8 +191,11 @@ public class DecisionTree {
 
     // searches grown tree with given dataFrame index
     // returns probability that value predicted is the same that this of index, based on previous observations
-    public double search(int indexToFind) throws Exception {
+    public int search(DataFrame data ) throws Exception {
 
+
+
+        for (int i=0 ; i <  data.getColumn(data.getColnames().get(0)) )
         CheckIndexes();
 
         Node curNode = head;
@@ -207,12 +210,34 @@ public class DecisionTree {
         }
         ArrayList<Integer> indexes = curNode.Indexes;
         System.out.println(indexes);
-        // counts number of ones in the leaf
-        double theSame=0;
-        for (int i=0; i<indexes.size(); i++){
-            if (dataFrame.getValuesToPredict().get(indexes.get(i)) == dataFrame.getValuesToPredict().get(indexToFind)) theSame++;
+        ArrayList vals = new ArrayList();
+        for (int i=0;i<indexes.size();i++){
+            vals.add(dataFrame.getValuesToPredict().get(indexes.get(i)));
         }
-        return theSame/indexes.size();
+        return dominant(vals);
     }
+
+    public int dominant(ArrayList<Integer> a){
+        HashMap<Integer, Integer> values = new HashMap<>();
+        for (int i=0; i<a.size(); i++){
+            if (values.containsKey(a.get(i))){
+                int temp = values.get(a.get(i));
+                values.put(a.get(i), temp+1);
+            }
+            else {
+                values.put(a.get(i),1);
+            }
+        }
+        int max = a.get(0);
+        for (int i=1; i<a.size(); i++){
+            if (values.get(a.get(i)) > values.get(max)){
+                max = values.get(a.get(i));
+            }
+
+        }
+        return max;
+    }
+
+
 
 }
