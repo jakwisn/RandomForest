@@ -84,7 +84,7 @@ public class RandomForest {
         ArrayList<String> colnamesToPickFrom = new ArrayList<>();
 
         for (String col:dataFrame.getColnames()) {
-            if (col == dataFrame.getColnameToPredict()){continue;}
+            if (col.equals(dataFrame.getColnameToPredict())){continue;}
             colnamesToPickFrom.add(col);
         }
         Random random = new Random();
