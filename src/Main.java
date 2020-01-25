@@ -21,9 +21,30 @@ public class Main {
 
 
 
-        RandomForest randomForest = new RandomForest(5,test,50,50,80, 50);
-        System.out.println(randomForest.train().get(1));
-        randomForest.train();
+        RandomForest randomForest = new RandomForest(5,test,30,30,80, 20);
+
+        ArrayList<DataFrame> test_train_split = randomForest.DivisionData();
+        test_train_split.get(0).setToPredict("quality");
+        test_train_split.get(1).setToPredict("quality");
+        randomForest.train(test_train_split.get(0));
+
+        ArrayList<Integer> results =  randomForest.test(test_train_split.get(1));
+
+        DataFrame testujacy = test_train_split.get(1);
+        ArrayList<Integer> genuineResults =  testujacy.getValuesToPredict();
+
+        System.out.println(genuineResults);
+        System.out.println(results);
+        double suma = 0;
+        for (int i = 0 ; i < genuineResults.size(); i++){
+            if (results.get(i).equals(genuineResults.get(i))){
+                suma ++;
+            }
+        }
+
+        System.out.println(suma/genuineResults.size());
+
+
 
     }
 }

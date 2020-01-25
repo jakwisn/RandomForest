@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class DecisionTreeTests {
 
+/*
     @org.junit.Test
     public void SearchMethodsTests() throws Exception {
         csvToDataFrame csv2df = new csvToDataFrame("test.csv",",");
@@ -36,16 +37,16 @@ public class DecisionTreeTests {
         dt.CultureTree();
 
         //when we know indexes and value we can check this with function search();
-        double val1 = dt.search(7);
-        double val2 = dt.search(4);
-        double val3 = dt.search(2);
+        double val1 = dt.predict(7);
+        double val2 = dt.predict(4);
+        double val3 = dt.predict(2);
 
         Assert.assertEquals(1, val3, 0.0);
         Assert.assertEquals(1, val2, 0.0);
         Assert.assertEquals(1, val1, 0.0);
 
     }
-
+*/
     //@ToDo
     @org.junit.Test
     public void IndexesWithTheSameValueTests() throws Exception {

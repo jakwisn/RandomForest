@@ -74,9 +74,9 @@ public class Node {
 
     public static class Leaf extends Node {
 
-        double Dominant;
+        int Dominant;
 
-        public Leaf(ArrayList<Integer> Indexes, double Dominant) {
+        public Leaf(ArrayList<Integer> Indexes, int Dominant) {
             this.Indexes = Indexes;
             this.Dominant = Dominant;
         }
@@ -85,9 +85,9 @@ public class Node {
             return Indexes;
         }
 
-        public double getDominant() { return Dominant; }
+        public int getDominant() { return Dominant; }
 
-        public void setDominant(double dominant) {
+        public void setDominant(int dominant) {
             Dominant = dominant;
         }
     }

@@ -147,7 +147,7 @@ public class DecisionTree {
 
         // create node's children ang grow tree recursively
         if( node.gini1==0 || node.depth==2 || columns.size()==0){
-            System.out.println("creating Left leaf " + node.list1);
+
             ArrayList vals = new ArrayList();
             for (int i=0;i<node.list1.size();i++){
                 vals.add(dataFrame.getValuesToPredict().get(node.list1.get(i)));
@@ -155,12 +155,12 @@ public class DecisionTree {
             node.Left = new Node.Leaf(node.list1, dominant(vals));
         }
         else{
-            System.out.println("creating Left dec " + node.list1);
+            //System.out.println("creating Left dec " + node.list1);
             node.Left = new Node.Decision(node.list1, columns, node.depth-1);
             GrowTree((Node.Decision) node.Left);
         }
         if( node.gini2==0 || node.depth==2 || columns.size()==0){
-            System.out.println("creating Right leaf " + node.list2);
+            //System.out.println("creating Right leaf " + node.list2);
             ArrayList vals = new ArrayList();
             for (int i=0;i<node.list2.size();i++){
                 vals.add(dataFrame.getValuesToPredict().get(node.list2.get(i)));
@@ -168,7 +168,7 @@ public class DecisionTree {
             node.Right = new Node.Leaf(node.list2, dominant(vals));
         }
         else{
-            System.out.println("creating Right dec " + node.list2);
+            //System.out.println("creating Right dec " + node.list2);
             node.Right = new Node.Decision(node.list2, columns, node.depth-1);
             GrowTree((Node.Decision) node.Right);
         }
@@ -184,7 +184,7 @@ public class DecisionTree {
         }
         CheckIndexes();
 
-        System.out.println("Growing tree...");
+        //System.out.println("Growing tree...");
         //when somebody gives max_depth == 1 then the tree only has a head
         if(max_depth == 1 || gini.calculateGiniIndex(Indexes) == 0){
             ArrayList vals = new ArrayList();
@@ -192,46 +192,44 @@ public class DecisionTree {
                 vals.add(dataFrame.getValuesToPredict().get(Indexes.get(i)));
             }
             head = new Node.Leaf(Indexes, dominant(vals));
-            System.out.println("Head: " + ((Node.Leaf) head).getIndexes());
+          //  System.out.println("Head: " + ((Node.Leaf) head).getIndexes());
         } else {
             head = new Node.Decision(Indexes, colnames, max_depth);
-            System.out.println("Head: " + ((Node.Decision) head).getIndexes());
+           // System.out.println("Head: " + ((Node.Decision) head).getIndexes());
             GrowTree((Node.Decision) head);
         }
-        System.out.println("Tree created succesfully!");
+        //System.out.println("Tree created succesfully!");
     }
 
     // searches grown tree with given dataFrame index
     // returns probability that value predicted is the same that this of index, based on previous observations
-    public int search(DataFrame data ) throws Exception {
+    public ArrayList<Integer> predict(DataFrame data ) throws Exception {
 
 
+        ArrayList<Integer> dominants = new ArrayList<>();
+        for (int i=0 ; i <  data.getColumn(data.getColnames().get(0)).size(); i++ ) {
 
-        for (int i=0 ; i <  data.getColumn(data.getColnames().get(0)) )
-        CheckIndexes();
+            int indexToFind = i;
+            CheckIndexes();
 
-        Node curNode = head;
-        String col;
-        // go to tree's leaf
-        while(curNode instanceof Node.Decision){
-            col = ((Node.Decision) curNode).getColname();
-            if(dataFrame.getColumn(col).get(indexToFind) < ((Node.Decision) curNode).getVal()){
-                curNode = ((Node.Decision) curNode).getLeft();
+            Node curNode = head;
+            String col;
+            // go to tree's leaf
+            while (curNode instanceof Node.Decision) {
+                col = ((Node.Decision) curNode).getColname();
+                if (data.getColumn(col).get(indexToFind) < ((Node.Decision) curNode).getVal()) {
+                    curNode = ((Node.Decision) curNode).getLeft();
+                } else curNode = ((Node.Decision) curNode).getRight();
             }
-            else curNode = ((Node.Decision) curNode).getRight();
+            dominants.add(((Node.Leaf) curNode).getDominant());
         }
-        ArrayList<Integer> indexes = curNode.Indexes;
-        System.out.println(indexes);
-        ArrayList vals = new ArrayList();
-        for (int i=0;i<indexes.size();i++){
-            vals.add(dataFrame.getValuesToPredict().get(indexes.get(i)));
-        }
-        return dominant(vals);
+        return dominants;
     }
 
     public int dominant(ArrayList<Integer> indexes){
 
         HashMap<Integer, Integer> values = new HashMap<>();
+        //System.out.println(indexes);
         for (int i=0; i<indexes.size(); i++){
             if (values.containsKey(indexes.get(i))){
                 int temp = values.get(indexes.get(i));
@@ -241,14 +239,17 @@ public class DecisionTree {
                 values.put(indexes.get(i),1);
             }
         }
-        int max = indexes.get(0);
-        for (int i=1; i<indexes.size(); i++){
-            if (values.get(indexes.get(i)) > values.get(max)){
-                max = values.get(indexes.get(i));
-            }
+        int max = 0;
+        int maxVal = -1;
 
+        for (int i:values.keySet()){
+                if (values.get(i) > max){
+                maxVal = i;
+                max = values.get(i);
+            }
         }
-        return max;
+        //System.out.println(maxVal);
+        return maxVal;
     }
 
 

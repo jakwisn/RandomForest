@@ -4,6 +4,7 @@ import dataload.DataFrame;
 import decisiontree.DecisionTree;
 import decisiontree.Node;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.HashMap;
@@ -29,7 +30,7 @@ public class RandomForest {
 
     //chcemy gdzies sprawdzac co przewiduje - czy ma ustawione - moze w train()
 
-    private ArrayList<DataFrame> DivisionData() throws Exception {
+    public ArrayList<DataFrame> DivisionData() throws Exception {
 
         ArrayList<String> colnames = dataFrame.getColnames();
         int AllRowIndexes = dataFrame.getColumn(colnames.get(0)).size();
@@ -42,8 +43,8 @@ public class RandomForest {
 
         if(DivisionPercentage >= 50.0){
             for(String column : colnames){
-                ArrayList<Integer> trainingRows = data.get(column);
-                ArrayList<Integer> testingRows = new ArrayList<>();
+                ArrayList trainingRows = data.get(column);
+                ArrayList testingRows = new ArrayList<>();
                 for(int i = MaxRowForTrainingData+1; i < AllRowIndexes; i++){
                     testingRows.add(trainingRows.remove(MaxRowForTrainingData+1));
                 }
@@ -52,8 +53,8 @@ public class RandomForest {
         }
         }else{
             for(String column : colnames){
-                ArrayList<Integer> testingRows = data.get(column);
-                ArrayList<Integer> trainingRows = new ArrayList<>();
+                ArrayList testingRows = data.get(column);
+                ArrayList trainingRows = new ArrayList<>();
                 for(int i = 0; i <= MaxRowForTrainingData; i++){
                     trainingRows.add(testingRows.remove(0));
                 }
@@ -71,9 +72,9 @@ public class RandomForest {
         return listOfData;
     }
 
-    public void train() throws Exception {
+    public void train(DataFrame trainData) throws Exception {
 
-        if (dataFrame.getColnameToPredict() == null ) {
+        if (trainData.getColnameToPredict() == null ) {
             throw new Exception("Colname to predict has not been set!");
         }
 
@@ -85,14 +86,14 @@ public class RandomForest {
         ArrayList<String> colnames = new ArrayList<>();
 
         // getting size of rows and columns
-        int rowSize = dataFrame.getValuesToPredict().size();
-        int colSize = dataFrame.getColnames().size();
+        int rowSize = trainData.getValuesToPredict().size();
+        int colSize = trainData.getColnames().size();
 
         // array of columns without the one to predict
         ArrayList<String> colnamesToPickFrom = new ArrayList<>();
 
-        for (String col:dataFrame.getColnames()) {
-            if (col.equals(dataFrame.getColnameToPredict())){continue;}
+        for (String col:trainData.getColnames()) {
+            if (col.equals(trainData.getColnameToPredict())){continue;}
             colnamesToPickFrom.add(col);
         }
         Random random = new Random();
@@ -102,32 +103,44 @@ public class RandomForest {
         String colname;
         for (int i = 0; i < number_of_trees;  i++) {
             // preparing data for decisionTree
-            for (i = 0 ; i < rowPercentage*rowSize/100; i++) {
-               index = random.nextInt(dataFrame.getValuesToPredict().size());
+            for (int j = 0 ; j < rowPercentage*rowSize/100; j++) {
+               index = random.nextInt(trainData.getValuesToPredict().size());
                indexes.add(index);
             }
 
 
-            for (i = 0 ; i < columnPercentage*colSize/100; i++) {
+            for (int j = 0 ; j < columnPercentage*colSize/100; j++) {
                 colname = colnamesToPickFrom.get(random.nextInt(colnamesToPickFrom.size()));
                 colnames.add(colname);
             }
             // with random colnames and rows lets grow tree
-            DecisionTree decisionTree = new DecisionTree(dataFrame,indexes,colnames,height);
+            DecisionTree decisionTree = new DecisionTree(trainData,indexes,colnames,height);
             decisionTree.CultureTree();
             forest.add(decisionTree);
+            System.out.println(i + "/" + number_of_trees);
         }
 
         this.trees = forest;
 
     }
 
-    public int test1(int indexToPredict) throws Exception {
-        ArrayList<Integer> doms = new ArrayList<>();
+    public ArrayList<Integer> test(DataFrame testData) throws Exception {
+        ArrayList<ArrayList<Integer>> doms = new ArrayList<>();
+
         for (int i=0; i<trees.size();i++){
-            doms.add(trees.get(i).search(indexToPredict));
+            doms.add(trees.get(i).predict(testData));
         }
-        return(trees.get(0).dominant(doms));
+        ArrayList<Integer> results = new ArrayList<>();
+        ArrayList<Integer> resultsColumns = new ArrayList<>();
+
+        for (int i=0 ; i < doms.get(0).size(); i++){
+            for (int j=0; j < doms.size(); j++ ){
+                resultsColumns.add(doms.get(j).get(i));
+            }
+            results.add(trees.get(0).dominant(resultsColumns));
+        }
+
+        return results;
     }
 
 }
