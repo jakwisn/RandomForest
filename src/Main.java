@@ -3,6 +3,7 @@ import dataload.csvToDataFrame;
 import decisiontree.DecisionTree;
 import decisiontree.Node;
 import gini.Gini;
+import randomforest.RandomForest;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,22 +17,13 @@ public class Main {
         csvToDataFrame csv2df = new csvToDataFrame("data.csv",",");
         DataFrame test = csv2df.convertToDataFrame();
         test.convertToNumeric();
-        test.setToPredict("qquality");
+        test.setToPredict("quality");
 
 
-        ArrayList<Integer> inds = new ArrayList<>();
-        for (int i=0; i<test.getColumn("quality").size();i++){
-            inds.add(i);
-        }
-        ArrayList<String> cols = new ArrayList<>();
-        for (String s:test.getColnames()){
-            cols.add(s);
-        }
 
+        RandomForest randomForest = new RandomForest(5,test,50,50,80, 50);
+        System.out.println(randomForest.train().get(1));
+        randomForest.train();
 
-        DecisionTree dt = new DecisionTree(test, inds, cols, 9);
-        dt.CultureTree();
-
-        System.out.println(dt.search(1));
     }
 }

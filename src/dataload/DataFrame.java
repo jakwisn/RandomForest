@@ -21,6 +21,10 @@ public class DataFrame {
         return colnames;
     }
 
+    public String getColnameToPredict(){
+        return this.colnameToPredict;
+    }
+
     public void setColnames(ArrayList<String> colnamesToChange) throws Exception {
         if (colnames.size() != colnamesToChange.size()){
             throw new Exception("Wrong size list: " + colnames.size() + " and " + colnamesToChange.size() + " are not equal");
