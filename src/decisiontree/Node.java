@@ -76,7 +76,7 @@ public class Node {
 
         double Dominant;
 
-        public Leaf(ArrayList<Integer> Indexes) {
+        public Leaf(ArrayList<Integer> Indexes, double Dominant) {
             this.Indexes = Indexes;
             this.Dominant = Dominant;
         }

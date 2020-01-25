@@ -148,7 +148,11 @@ public class DecisionTree {
         // create node's children ang grow tree recursively
         if( node.gini1==0 || node.depth==2 || columns.size()==0){
             System.out.println("creating Left leaf " + node.list1);
-            node.Left = new Node.Leaf(node.list1);
+            ArrayList vals = new ArrayList();
+            for (int i=0;i<node.list1.size();i++){
+                vals.add(dataFrame.getValuesToPredict().get(node.list1.get(i)));
+            }
+            node.Left = new Node.Leaf(node.list1, dominant(vals));
         }
         else{
             System.out.println("creating Left dec " + node.list1);
@@ -157,7 +161,11 @@ public class DecisionTree {
         }
         if( node.gini2==0 || node.depth==2 || columns.size()==0){
             System.out.println("creating Right leaf " + node.list2);
-            node.Right = new Node.Leaf(node.list2);
+            ArrayList vals = new ArrayList();
+            for (int i=0;i<node.list2.size();i++){
+                vals.add(dataFrame.getValuesToPredict().get(node.list2.get(i)));
+            }
+            node.Right = new Node.Leaf(node.list2, dominant(vals));
         }
         else{
             System.out.println("creating Right dec " + node.list2);
@@ -179,7 +187,11 @@ public class DecisionTree {
         System.out.println("Growing tree...");
         //when somebody gives max_depth == 1 then the tree only has a head
         if(max_depth == 1 || gini.calculateGiniIndex(Indexes) == 0){
-            head = new Node.Leaf(Indexes);
+            ArrayList vals = new ArrayList();
+            for (int i=0;i<Indexes.size();i++){
+                vals.add(dataFrame.getValuesToPredict().get(Indexes.get(i)));
+            }
+            head = new Node.Leaf(Indexes, dominant(vals));
             System.out.println("Head: " + ((Node.Leaf) head).getIndexes());
         } else {
             head = new Node.Decision(Indexes, colnames, max_depth);
@@ -217,21 +229,22 @@ public class DecisionTree {
         return dominant(vals);
     }
 
-    public int dominant(ArrayList<Integer> a){
+    public int dominant(ArrayList<Integer> indexes){
+
         HashMap<Integer, Integer> values = new HashMap<>();
-        for (int i=0; i<a.size(); i++){
-            if (values.containsKey(a.get(i))){
-                int temp = values.get(a.get(i));
-                values.put(a.get(i), temp+1);
+        for (int i=0; i<indexes.size(); i++){
+            if (values.containsKey(indexes.get(i))){
+                int temp = values.get(indexes.get(i));
+                values.put(indexes.get(i), temp+1);
             }
             else {
-                values.put(a.get(i),1);
+                values.put(indexes.get(i),1);
             }
         }
-        int max = a.get(0);
-        for (int i=1; i<a.size(); i++){
-            if (values.get(a.get(i)) > values.get(max)){
-                max = values.get(a.get(i));
+        int max = indexes.get(0);
+        for (int i=1; i<indexes.size(); i++){
+            if (values.get(indexes.get(i)) > values.get(max)){
+                max = values.get(indexes.get(i));
             }
 
         }
