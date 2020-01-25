@@ -16,7 +16,8 @@ public class Main {
         csvToDataFrame csv2df = new csvToDataFrame("data.csv",",");
         DataFrame test = csv2df.convertToDataFrame();
         test.convertToNumeric();
-        test.setToPredict("quality");
+        test.setToPredict("qquality");
+
 
         ArrayList<Integer> inds = new ArrayList<>();
         for (int i=0; i<test.getColumn("quality").size();i++){

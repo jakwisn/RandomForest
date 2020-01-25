@@ -40,9 +40,9 @@ public class DecisionTreeTests {
         double val2 = dt.search(4);
         double val3 = dt.search(2);
 
-        Assert.assertEquals(0.0, val3, 0.0);
-        Assert.assertEquals(0.0, val2, 0.0);
-        Assert.assertEquals(1.0, val1, 0.0);
+        Assert.assertEquals(1, val3, 0.0);
+        Assert.assertEquals(1, val2, 0.0);
+        Assert.assertEquals(1, val1, 0.0);
 
     }
 
