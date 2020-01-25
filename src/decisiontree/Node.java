@@ -74,13 +74,21 @@ public class Node {
 
     public static class Leaf extends Node {
 
+        double Dominant;
 
         public Leaf(ArrayList<Integer> Indexes) {
             this.Indexes = Indexes;
+            this.Dominant = Dominant;
         }
 
         public ArrayList<Integer> getIndexes() {
             return Indexes;
+        }
+
+        public double getDominant() { return Dominant; }
+
+        public void setDominant(double dominant) {
+            Dominant = dominant;
         }
     }
 
