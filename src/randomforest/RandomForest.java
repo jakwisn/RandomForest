@@ -117,7 +117,9 @@ public class RandomForest {
             DecisionTree decisionTree = new DecisionTree(trainData,indexes,colnames,height);
             decisionTree.CultureTree();
             forest.add(decisionTree);
+
             System.out.println(i + "/" + number_of_trees);
+
         }
 
         this.trees = forest;

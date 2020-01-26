@@ -21,11 +21,12 @@ public class Main {
 
 
 
-        RandomForest randomForest = new RandomForest(5,test,30,30,80, 20);
+        RandomForest randomForest = new RandomForest(40,test,30,80,80, 200);
 
         ArrayList<DataFrame> test_train_split = randomForest.DivisionData();
         test_train_split.get(0).setToPredict("quality");
         test_train_split.get(1).setToPredict("quality");
+
         randomForest.train(test_train_split.get(0));
 
         ArrayList<Integer> results =  randomForest.test(test_train_split.get(1));
@@ -43,8 +44,5 @@ public class Main {
         }
 
         System.out.println(suma/genuineResults.size());
-
-
-
     }
 }

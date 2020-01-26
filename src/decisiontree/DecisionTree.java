@@ -4,6 +4,9 @@ import dataload.DataFrame;
 import gini.Gini;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.Comparator.*;
 
 public class DecisionTree {
 
@@ -69,30 +72,36 @@ public class DecisionTree {
         ArrayList<Double> list = new ArrayList<>();
         for (int i:indexes){list.add(fullList.get(i));}
 
-        int bestSplitIndex = 0;
-        ArrayList listPart1 = new ArrayList();
-        ArrayList listPart2 = new ArrayList();
+        /*
+        List listTMP = list.stream().sorted().collect(Collectors.toList());
+        ArrayList<Double> sorted = new ArrayList<Double>(listTMP);
 
-        // check split on value of each index
-        for (int i=0;i<indexes.size();i++){
-            if (fullList.get(indexes.get(i))<fullList.get(indexes.get(0))){
-                listPart1.add(indexes.get(i));
-            }
-            else{
-                listPart2.add(indexes.get(i));
-            }
+        List<Double> splits = new ArrayList<>();
+        for (int i = 0 ; i < list.size(); i+= (int)Math.floor(list.size()/11)){
+            if (i == 0)continue;
+            // else :
+            splits.add(sorted.get(i));
+            System.out.println(sorted.get(i));
         }
 
-        // comparing splits by weighted arithmetic mean with weights being numbers of elements in both splits
-        double gini1 = gini.calculateGiniIndex(listPart1);
-        double gini2 = gini.calculateGiniIndex(listPart2);
-        double bestSplitValue = (gini1*listPart1.size()+gini2*listPart2.size())/(indexes.size());
+       */
 
-        for (int i=1;i<list.size();i++){
+
+        int bestSplitIndex = 0;
+        ArrayList listPart1;
+        ArrayList listPart2;
+
+
+
+        double gini1 = 2;
+        double gini2 = 2;
+        double bestSplitValue = 4;
+
+        for (int k=1;k<list.size();k++){
             listPart1 = new ArrayList();
             listPart2 = new ArrayList();
             for (int j=0;j<indexes.size();j++){
-                if (fullList.get(indexes.get(j))<fullList.get(indexes.get(i))){
+                if (fullList.get(indexes.get(j))<fullList.get(indexes.get(k))){
                     listPart1.add(indexes.get(j));
                 }
                 else{
@@ -109,7 +118,7 @@ public class DecisionTree {
             else x = 0;
             if((gini1*listPart1.size()+gini2*listPart2.size())/(list.size())+x<bestSplitValue){
                 bestSplitValue = (gini1*listPart1.size()+gini2*listPart2.size())/(list.size());
-                bestSplitIndex = i;
+                bestSplitIndex = k;
             }
         }
 
@@ -192,10 +201,10 @@ public class DecisionTree {
                 vals.add(dataFrame.getValuesToPredict().get(Indexes.get(i)));
             }
             head = new Node.Leaf(Indexes, dominant(vals));
-          //  System.out.println("Head: " + ((Node.Leaf) head).getIndexes());
+            //  System.out.println("Head: " + ((Node.Leaf) head).getIndexes());
         } else {
             head = new Node.Decision(Indexes, colnames, max_depth);
-           // System.out.println("Head: " + ((Node.Decision) head).getIndexes());
+            // System.out.println("Head: " + ((Node.Decision) head).getIndexes());
             GrowTree((Node.Decision) head);
         }
         //System.out.println("Tree created succesfully!");
@@ -243,7 +252,7 @@ public class DecisionTree {
         int maxVal = -1;
 
         for (int i:values.keySet()){
-                if (values.get(i) > max){
+            if (values.get(i) > max){
                 maxVal = i;
                 max = values.get(i);
             }
