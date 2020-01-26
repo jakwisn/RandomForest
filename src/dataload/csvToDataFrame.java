@@ -19,13 +19,11 @@ public class csvToDataFrame {
         this.separator = separator;
     }
 
+    // converts CSV to DataFrame class
     public DataFrame convertToDataFrame() throws Exception {
-        // Converts CSV to DataFrame class
 
         // if file does not exist
         if (!Files.exists(Paths.get(pathToCSV))) throw new RuntimeException("Place " + pathToCSV + " file in project root directory");
-
-
 
         BufferedReader br ;
         br = new BufferedReader(new FileReader(pathToCSV));
@@ -33,13 +31,12 @@ public class csvToDataFrame {
         ArrayList<String> ColumnsArray = getColnames();
         HashMap<String, ArrayList> hashMap = new HashMap<>();
 
-        // Colnames to DataFrame
-        for (int i = 0; i < ColumnsArray.size(); i ++){
+        // colnames to DataFrame
+        for (String columnName : ColumnsArray) {
 
             // For each column name
-            String columnName =  ColumnsArray.get(i);
             ArrayList values = new ArrayList<>();
-            hashMap.put(columnName,values);
+            hashMap.put(columnName, values);
         }
 
         String colnames = br.readLine();
@@ -55,17 +52,17 @@ public class csvToDataFrame {
             line = br.readLine();
         }
 
-        // check whether columuns have one type variables only
-        for (int i=0; i<ColumnsArray.size(); i++){
-            ArrayList column = hashMap.get(ColumnsArray.get(i));
+        // check whether columns have one type variables only
+        for (String s : ColumnsArray) {
+            ArrayList column = hashMap.get(s);
             boolean IsNumber = true;
             try {
                 double d = Double.parseDouble((String) column.get(0));
             } catch (NumberFormatException nfe) {
                 IsNumber = false;
             }
-            if (IsNumber){
-                for (Object v:column){
+            if (IsNumber) {
+                for (Object v : column) {
                     IsNumber = true;
                     try {
                         double d = Double.parseDouble((String) v);
@@ -73,13 +70,12 @@ public class csvToDataFrame {
                         IsNumber = false;
                     }
 
-                    if (! (IsNumber)){
-                        throw new CustomException("Strings mixed with numbers in column " + ColumnsArray.get(i) + "!");
+                    if (!(IsNumber)) {
+                        throw new CustomException("Strings mixed with numbers in column " + s + "!");
                     }
                 }
-            }
-            else{
-                for (Object v:column){
+            } else {
+                for (Object v : column) {
                     IsNumber = true;
                     try {
                         double d = Double.parseDouble((String) v);
@@ -87,8 +83,8 @@ public class csvToDataFrame {
                         IsNumber = false;
                     }
 
-                    if (IsNumber){
-                        throw new CustomException("Strings mixed with numbers in column "  + ColumnsArray.get(i) + "!");
+                    if (IsNumber) {
+                        throw new CustomException("Strings mixed with numbers in column " + s + "!");
                     }
                 }
             }
@@ -99,6 +95,7 @@ public class csvToDataFrame {
         return new DataFrame(hashMap,ColumnsArray);
     }
 
+    // returns columns from the file to the data frame
     public ArrayList<String> getColnames() throws Exception {
 
         if (!Files.exists(Paths.get(pathToCSV))) throw new RuntimeException("Place " + pathToCSV + " file in project root directory");
@@ -124,11 +121,7 @@ public class csvToDataFrame {
 
         // splitting by declared separator
         String[] Columns = columns.split(separator);
-        ArrayList<String> ColumnsArray = new ArrayList<>(Arrays.asList(Columns));
 
-
-
-
-        return ColumnsArray;
+        return new ArrayList<>(Arrays.asList(Columns));
     }
 }

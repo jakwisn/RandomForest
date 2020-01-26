@@ -46,6 +46,15 @@ Obsługuje wyjątki gdy plik jest pusty oraz gdy nie ma rozszerzenia csv.
 >   ***getValuesToPredict()***    
 >      Zwraca nam kolumnę, którą będziemy w przyszłości przewidywać. W szczególności wykorzystywane przy liczeniu indeksu Gini.
 
+>   ***getColumn(String column)***
+>     Zwraca wartosci w danej kolumnie
+
+>   ***getDataFrame()***
+>     Zwraca hashmapę, gdzie klucze to nazwy kolumn, a wartościami są wartości w tych kolumnach
+
+>   ***setColnames(ArrayList<String> colnamesToChange)***
+>     Ustawia nowe nazwy kolumn/zmienia nazwy kolumn w DataFrame przy wykorzystaniu metody setColname(String oldName, String newName)
+
 
 **Klasa Gini**  
   Indeks Gini odpowiada dystrybucji klas w zbiorze. Gdy przykładowo w danym zbiorze będzie tyle samo elementów o klasach odpowiednio A oraz B to indeks Gini wynosi 0.5. Jeżeli w tym zbiorze będą tylko elementy klasy B, to indeks wynosił będzie 0. Im mniejszy indeks, tym mniejsza entropia w danym zbiorze. Sam indeks posiada wartości od 0 -gdy jest tylko jedna klasa, do 1, gdy jest nieskończenie wiele klas o bardzo małym prawdopodobieństwie.
