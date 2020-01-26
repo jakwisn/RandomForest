@@ -115,6 +115,7 @@ public class RandomForest {
             }
             // with random colnames and rows lets grow tree
             DecisionTree decisionTree = new DecisionTree(trainData,indexes,colnames,height);
+            System.out.println();
             decisionTree.CultureTree();
             forest.add(decisionTree);
 
