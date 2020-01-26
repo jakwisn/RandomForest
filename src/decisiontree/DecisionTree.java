@@ -72,19 +72,18 @@ public class DecisionTree {
         ArrayList<Double> list = new ArrayList<>();
         for (int i:indexes){list.add(fullList.get(i));}
 
-        /*
+/*
         List listTMP = list.stream().sorted().collect(Collectors.toList());
         ArrayList<Double> sorted = new ArrayList<Double>(listTMP);
 
         List<Double> splits = new ArrayList<>();
         for (int i = 0 ; i < list.size(); i+= (int)Math.floor(list.size()/11)){
-            if (i == 0)continue;
+
             // else :
             splits.add(sorted.get(i));
-            System.out.println(sorted.get(i));
         }
 
-       */
+*/
 
 
         int bestSplitIndex = 0;
@@ -97,7 +96,7 @@ public class DecisionTree {
         double gini2 = 2;
         double bestSplitValue = 4;
 
-        for (int k=1;k<list.size();k++){
+        for (int k=0;k<list.size();k++){
             listPart1 = new ArrayList();
             listPart2 = new ArrayList();
             for (int j=0;j<indexes.size();j++){
