@@ -74,7 +74,7 @@ public class DecisionTree {
         ArrayList listPart2 = new ArrayList();
 
         // check split on value of each index
-        for (int i=0;i<indexes.size();i++){
+        for (int i=0;i<indexes.size();i+=1){
             if (fullList.get(indexes.get(i))<fullList.get(indexes.get(0))){
                 listPart1.add(indexes.get(i));
             }
@@ -88,7 +88,7 @@ public class DecisionTree {
         double gini2 = gini.calculateGiniIndex(listPart2);
         double bestSplitValue = (gini1*listPart1.size()+gini2*listPart2.size())/(indexes.size());
 
-        for (int i=1;i<list.size();i++){
+        for (int i=1;i<list.size();i+=1){
             listPart1 = new ArrayList();
             listPart2 = new ArrayList();
             for (int j=0;j<indexes.size();j++){
