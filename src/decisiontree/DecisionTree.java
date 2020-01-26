@@ -7,11 +7,11 @@ import java.util.*;
 
 public class DecisionTree {
 
-    Node head;
-    static ArrayList<String> colnames;
-    ArrayList<Integer> Indexes;
-    int max_depth;
-    static DataFrame dataFrame;
+    private Node head;
+    private static ArrayList<String> colnames;
+    private ArrayList<Integer> Indexes;
+    private int max_depth;
+    private static DataFrame dataFrame;
     private Gini gini;
 
     public DecisionTree(DataFrame dataFrame, ArrayList<Integer> Indexes, ArrayList<String> colnames, int max_depth) {
@@ -36,8 +36,8 @@ public class DecisionTree {
     }
 
     // method finds the best split point from all given columns and their indexes
-    // returns Arraylist of 2: column name and split value
-    public static ArrayList findBestSplit(ArrayList<String> colnames, ArrayList<Integer> indexes , Gini gini) throws Exception {
+    // returns ArrayList of 2: column name and split value
+    private static ArrayList findBestSplit(ArrayList<String> colnames, ArrayList<Integer> indexes, Gini gini) throws Exception {
 
         double bestGiniSplit= 10;
         int bestSplit = 0;
@@ -70,16 +70,15 @@ public class DecisionTree {
         for (int i:indexes){list.add(fullList.get(i));}
 
         int bestSplitIndex = 0;
-        ArrayList listPart1 = new ArrayList();
-        ArrayList listPart2 = new ArrayList();
+        ArrayList<Integer> listPart1 = new ArrayList<>();
+        ArrayList<Integer> listPart2 = new ArrayList<>();
 
         // check split on value of each index
-        for (int i=0;i<indexes.size();i+=1){
-            if (fullList.get(indexes.get(i))<fullList.get(indexes.get(0))){
-                listPart1.add(indexes.get(i));
-            }
-            else{
-                listPart2.add(indexes.get(i));
+        for (Integer index : indexes) {
+            if (fullList.get(index) < fullList.get(indexes.get(0))) {
+                listPart1.add(index);
+            } else {
+                listPart2.add(index);
             }
         }
 
@@ -89,14 +88,13 @@ public class DecisionTree {
         double bestSplitValue = (gini1*listPart1.size()+gini2*listPart2.size())/(indexes.size());
 
         for (int i=1;i<list.size();i+=1){
-            listPart1 = new ArrayList();
-            listPart2 = new ArrayList();
-            for (int j=0;j<indexes.size();j++){
-                if (fullList.get(indexes.get(j))<fullList.get(indexes.get(i))){
-                    listPart1.add(indexes.get(j));
-                }
-                else{
-                    listPart2.add(indexes.get(j));
+            listPart1 = new ArrayList<>();
+            listPart2 = new ArrayList<>();
+            for (Integer index : indexes) {
+                if (fullList.get(index) < fullList.get(indexes.get(i))) {
+                    listPart1.add(index);
+                } else {
+                    listPart2.add(index);
                 }
             }
 
@@ -148,10 +146,11 @@ public class DecisionTree {
         // create node's children ang grow tree recursively
         if( node.gini1==0 || node.depth==2 || columns.size()==0){
 
-            ArrayList vals = new ArrayList();
+            ArrayList<Integer> vals = new ArrayList<>();
             for (int i=0;i<node.list1.size();i++){
                 vals.add(dataFrame.getValuesToPredict().get(node.list1.get(i)));
             }
+            //System.out.println("creating Left leaf " + node.list1);
             node.Left = new Node.Leaf(node.list1, dominant(vals));
         }
         else{
@@ -160,11 +159,11 @@ public class DecisionTree {
             GrowTree((Node.Decision) node.Left);
         }
         if( node.gini2==0 || node.depth==2 || columns.size()==0){
-            //System.out.println("creating Right leaf " + node.list2);
-            ArrayList vals = new ArrayList();
+            ArrayList<Integer> vals = new ArrayList<>();
             for (int i=0;i<node.list2.size();i++){
                 vals.add(dataFrame.getValuesToPredict().get(node.list2.get(i)));
             }
+            //System.out.println("creating Right leaf " + node.list2);
             node.Right = new Node.Leaf(node.list2, dominant(vals));
         }
         else{
@@ -185,11 +184,12 @@ public class DecisionTree {
         CheckIndexes();
 
         //System.out.println("Growing tree...");
+
         //when somebody gives max_depth == 1 then the tree only has a head
         if(max_depth == 1 || gini.calculateGiniIndex(Indexes) == 0){
-            ArrayList vals = new ArrayList();
-            for (int i=0;i<Indexes.size();i++){
-                vals.add(dataFrame.getValuesToPredict().get(Indexes.get(i)));
+            ArrayList<Integer> vals = new ArrayList<>();
+            for (Integer index : Indexes) {
+                vals.add(dataFrame.getValuesToPredict().get(index));
             }
             head = new Node.Leaf(Indexes, dominant(vals));
             //  System.out.println("Head: " + ((Node.Leaf) head).getIndexes());
@@ -198,18 +198,16 @@ public class DecisionTree {
             // System.out.println("Head: " + ((Node.Decision) head).getIndexes());
             GrowTree((Node.Decision) head);
         }
-        //System.out.println("Tree created succesfully!");
+        //System.out.println("Tree created successfully!");
     }
 
-    // searches grown tree with given dataFrame index
-    // returns probability that value predicted is the same that this of index, based on previous observations
-    public ArrayList<Integer> predict(DataFrame data ) throws Exception {
-
+    //predict a value for each row from the given DataFrame
+    public ArrayList<Integer> predict(DataFrame data) throws Exception {
 
         ArrayList<Integer> dominants = new ArrayList<>();
-        for (int i=0 ; i <  data.getColumn(data.getColnames().get(0)).size(); i++ ) {
+        int size = data.getColumn(data.getColnames().get(0)).size();
+        for (int indexToFind=0 ; indexToFind < size ; indexToFind++ ) {
 
-            int indexToFind = i;
             CheckIndexes();
 
             Node curNode = head;
@@ -223,20 +221,21 @@ public class DecisionTree {
             }
             dominants.add(((Node.Leaf) curNode).getDominant());
         }
+
         return dominants;
     }
 
-    public int dominant(ArrayList<Integer> indexes){
+    // calculates the dominant for the given values from the Predict column
+    // used by predict() and CultureTree()
+    public int dominant(ArrayList<Integer> vals){
 
         HashMap<Integer, Integer> values = new HashMap<>();
-        //System.out.println(indexes);
-        for (int i=0; i<indexes.size(); i++){
-            if (values.containsKey(indexes.get(i))){
-                int temp = values.get(indexes.get(i));
-                values.put(indexes.get(i), temp+1);
-            }
-            else {
-                values.put(indexes.get(i),1);
+        for (Integer v : vals) {
+            if (values.containsKey(v)) {
+                int temp = values.get(v);
+                values.put(v, temp + 1);
+            } else {
+                values.put(v, 1);
             }
         }
         int max = 0;
@@ -248,7 +247,7 @@ public class DecisionTree {
                 max = values.get(i);
             }
         }
-        //System.out.println(maxVal);
+
         return maxVal;
     }
 

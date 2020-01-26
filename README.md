@@ -29,7 +29,7 @@ tekstowymi. Jeżeli zajdzie taka sytuacja program wyrzuci wyjątek.
 Obsługuje wyjątki gdy plik jest pusty oraz gdy nie ma rozszerzenia csv.
   
 >  ***getColnames()***   
->    zmienia pierwszy wiersz na listę kolumn
+>    zmienia pierwszy wiersz na listę kolumn.
     
 >  ***convertToDataFrame()***   
 >    Konwertuje linia po lini csv i dodaje do obiektu DataFrame. 
@@ -41,19 +41,19 @@ Obsługuje wyjątki gdy plik jest pusty oraz gdy nie ma rozszerzenia csv.
 >      Dla każdej kolumny sprawdza czy jest Stringiem, jeżeli tak, to każdy odmienny string zamienia na inną liczbę. Operacje wykonuje na istniejącym DataFrame. Zwraca void. 
 
 >   ***setToPredict(String colname)***  
->      Oznacza kolumnę jako tą, na której będziemy trenować, a później przewidywać
+>      Oznacza kolumnę jako tą, na której będziemy trenować, a później przewidywać.
 
 >   ***getValuesToPredict()***    
 >      Zwraca nam kolumnę, którą będziemy w przyszłości przewidywać. W szczególności wykorzystywane przy liczeniu indeksu Gini.
 
->   ***getColumn(String column)***
->     Zwraca wartosci w danej kolumnie
+>   ***getColumn(String column)***          
+>     Zwraca wartosci w danej kolumnie.
 
->   ***getDataFrame()***
->     Zwraca hashmapę, gdzie klucze to nazwy kolumn, a wartościami są wartości w tych kolumnach
+>   ***getDataFrame()***         
+>     Zwraca hashmapę, gdzie klucze to nazwy kolumn, a wartościami są wartości w tych kolumnach.
 
->   ***setColnames(ArrayList<String> colnamesToChange)***
->     Ustawia nowe nazwy kolumn/zmienia nazwy kolumn w DataFrame przy wykorzystaniu metody setColname(String oldName, String newName)
+>   ***setColnames(ArrayList<String> colnamesToChange)***         
+>     Ustawia nowe nazwy kolumn/zmienia nazwy kolumn w DataFrame przy wykorzystaniu metody setColname(String oldName, String newName).
 
 
 **Klasa Gini**  
@@ -69,7 +69,7 @@ Do konstruktora potrzebuje ramki danych DataFrame z określoną wcześniej kolum
 
 
 **Klasa Node**    
-  Klasa odpowiada za tworzenie węzłów przy budowaniu drzewa. Węzły są decyzyjne (Node.Decision) i jako liście (Node.Leaf), stworzone jako klasy wewnętrzne klasy Node. Leaf zawiera jedynie indeksy jakie wpadają do niego, a Decision: indeksy, nazwy kolumn jakie zostały do podziału, nazwę kolumny, której podziału dotyczy węzeł, prawe i lewe dziecko, wartość podziału, głębokość drzewa na danym poziomie oraz dwie listy i wartości indeksu gini dla .... . Decision posiada gettery i settery.
+  Klasa odpowiada za tworzenie węzłów przy budowaniu drzewa. Węzły są decyzyjne (Node.Decision) i jako liście (Node.Leaf), stworzone jako klasy wewnętrzne klasy Node. Leaf zawiera jedynie indeksy jakie wpadają do niego oraz dominantę dla tych indeksów, a Decision: indeksy, nazwy kolumn jakie zostały do podziału, nazwę kolumny, której podziału dotyczy węzeł, prawe i lewe dziecko, wartość podziału, głębokość drzewa na danym poziomie oraz dwie listy i wartości indeksu gini dla prawego i lewego dziecka. Obie klasy wewnętrzne posiadają gettery i settery.
   
 **Klasa DecisionTree**   
   Klasa odpowiada za tworzenie drzew. Korzysta ona ze wszystkich dotychczasowych napisanych funkcji. Drzewo składa się z głowy (head), węzłów decyzyjnych (Node.Decision) i liści (Node.Leaf). Rośnie rekurencyjnie. Do jego stworzenia potrzeba ramki danych DataFrame z ustawioną kolumną do przewidywania (setToPredict), wybranych indeksów i kolumn oraz maksymalnej głębokości drzewa. 
@@ -84,10 +84,13 @@ Do konstruktora potrzebuje ramki danych DataFrame z określoną wcześniej kolum
 >     Rekursywna metoda tworzenia drzewa.
 
 >   ***CultureTree()***     
->     Tworzy head drzewa a potem drzewo korzystając z metody GrowTree.
+>     Tworzy najpierw head drzewa a potem, jeśli spełnione są odpowiednie warunki kolejne węzły drzewa, korzystając z metody GrowTree.
 
->   ***search(int indexToFind)***     
->     Przeszukuje drzewo, aby znaleźć liść z indexem jaki podajemy do metody. Zwraca prawdopodobieństko, że przewidywana wartość wynosi 1 w oparciu o poprzednie obserwacje
+>   ***predict(DataFrame data)***      
+>     Zwraca listę dominant - wartości przewidzianych dla każdego wiersza z podanej DataFrame.
+
+>   ***dominant(ArrayList<Integer> vals)***      
+>     Oblicza dominantę dla podanych wartości.
 
 
 

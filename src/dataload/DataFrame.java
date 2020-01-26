@@ -52,7 +52,7 @@ public class DataFrame {
         return dataFrame;
     }
 
-    public ArrayList getColumn(String name) throws Exception {
+    public ArrayList<Double> getColumn(String name) throws Exception {
 
         if (!colnames.contains(name)){
             throw new Exception("In DataFrame there is no column named: " + name);

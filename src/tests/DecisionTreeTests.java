@@ -3,15 +3,17 @@ package tests;
 import dataload.DataFrame;
 import dataload.csvToDataFrame;
 import decisiontree.DecisionTree;
-import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import static junit.framework.TestCase.assertEquals;
 
 public class DecisionTreeTests {
 
-/*
-    @org.junit.Test
-    public void SearchMethodsTests() throws Exception {
+    @Test
+    public void PredictMethodsTests() throws Exception {
         csvToDataFrame csv2df = new csvToDataFrame("test.csv",",");
         DataFrame test = csv2df.convertToDataFrame();
         test.convertToNumeric();
@@ -36,17 +38,34 @@ public class DecisionTreeTests {
         DecisionTree dt = new DecisionTree(test, inds, cols, 3);
         dt.CultureTree();
 
-        //when we know indexes and value we can check this with function search();
-        double val1 = dt.predict(7);
-        double val2 = dt.predict(4);
-        double val3 = dt.predict(2);
+        ArrayList<Integer> indexestopredict = new ArrayList<>();
+        indexestopredict.add(1);
+        indexestopredict.add(10);
+        indexestopredict.add(8);
 
-        Assert.assertEquals(1, val3, 0.0);
-        Assert.assertEquals(1, val2, 0.0);
-        Assert.assertEquals(1, val1, 0.0);
+        HashMap<String, ArrayList> df = test.getDataFrame();
+        HashMap<String, ArrayList> topredict = new HashMap<>();
+        ArrayList<Integer> valuesfrompredictcolumn = new ArrayList<>();
 
+        for(int i : indexestopredict) {
+            valuesfrompredictcolumn.add(test.getValuesToPredict().get(i));
+        }
+        ArrayList<String> cols2 = new ArrayList<>();
+        cols2.add("Wealth");
+        cols2.add("Sex");
+        cols2.add("Age");
+        for (String col : cols2) {
+            ArrayList<Double> list = new ArrayList<>();
+            for(int i : indexestopredict){
+                list.add((Double) df.get(col).get(i));
+            }
+            topredict.put(col, list);
+        }
+
+        ArrayList dominants = dt.predict(new DataFrame(topredict, cols2));
+        assertEquals(valuesfrompredictcolumn, dominants);
     }
-*/
+
     //@ToDo
     @org.junit.Test
     public void IndexesWithTheSameValueTests() throws Exception {
