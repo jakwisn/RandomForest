@@ -4,9 +4,6 @@ import dataload.DataFrame;
 import gini.Gini;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
-import static java.util.Comparator.*;
 
 public class DecisionTree {
 
@@ -72,32 +69,30 @@ public class DecisionTree {
         ArrayList<Double> list = new ArrayList<>();
         for (int i:indexes){list.add(fullList.get(i));}
 
+        int bestSplitIndex = 0;
+        ArrayList listPart1 = new ArrayList();
+        ArrayList listPart2 = new ArrayList();
 
-        List listTMP = list.stream().sorted().collect(Collectors.toList());
-        ArrayList<Double> sorted = new ArrayList<Double>(listTMP);
-
-        List<Double> splits = new ArrayList<>();
-        int upTo = 0 ;
-        while ( upTo < list.size()){
-            splits.add(sorted.get(upTo));
-            upTo += (int)Math.floor(list.size()/11) + 1;
+        // check split on value of each index
+        for (int i=0;i<indexes.size();i++){
+            if (fullList.get(indexes.get(i))<fullList.get(indexes.get(0))){
+                listPart1.add(indexes.get(i));
+            }
+            else{
+                listPart2.add(indexes.get(i));
+            }
         }
 
-        int bestSplitIndex = 0;
-        ArrayList listPart1;
-        ArrayList listPart2;
+        // comparing splits by weighted arithmetic mean with weights being numbers of elements in both splits
+        double gini1 = gini.calculateGiniIndex(listPart1);
+        double gini2 = gini.calculateGiniIndex(listPart2);
+        double bestSplitValue = (gini1*listPart1.size()+gini2*listPart2.size())/(indexes.size());
 
-
-
-        double gini1 = 2;
-        double gini2 = 2;
-        double bestSplitValue = 4;
-
-        for (double split:splits){
+        for (int i=1;i<list.size();i++){
             listPart1 = new ArrayList();
             listPart2 = new ArrayList();
             for (int j=0;j<indexes.size();j++){
-                if (fullList.get(indexes.get(j))<split){
+                if (fullList.get(indexes.get(j))<fullList.get(indexes.get(i))){
                     listPart1.add(indexes.get(j));
                 }
                 else{
@@ -114,7 +109,7 @@ public class DecisionTree {
             else x = 0;
             if((gini1*listPart1.size()+gini2*listPart2.size())/(list.size())+x<bestSplitValue){
                 bestSplitValue = (gini1*listPart1.size()+gini2*listPart2.size())/(list.size());
-                bestSplitIndex = list.indexOf(split);
+                bestSplitIndex = i;
             }
         }
 
@@ -157,16 +152,15 @@ public class DecisionTree {
             for (int i=0;i<node.list1.size();i++){
                 vals.add(dataFrame.getValuesToPredict().get(node.list1.get(i)));
             }
-            System.out.println("creating Left Leaf " + node.list1);
             node.Left = new Node.Leaf(node.list1, dominant(vals));
         }
         else{
-            System.out.println("creating Left dec " + node.list1);
+            //System.out.println("creating Left dec " + node.list1);
             node.Left = new Node.Decision(node.list1, columns, node.depth-1);
             GrowTree((Node.Decision) node.Left);
         }
         if( node.gini2==0 || node.depth==2 || columns.size()==0){
-            System.out.println("creating Right leaf " + node.list2);
+            //System.out.println("creating Right leaf " + node.list2);
             ArrayList vals = new ArrayList();
             for (int i=0;i<node.list2.size();i++){
                 vals.add(dataFrame.getValuesToPredict().get(node.list2.get(i)));
@@ -174,7 +168,7 @@ public class DecisionTree {
             node.Right = new Node.Leaf(node.list2, dominant(vals));
         }
         else{
-            System.out.println("creating Right dec " + node.list2);
+            //System.out.println("creating Right dec " + node.list2);
             node.Right = new Node.Decision(node.list2, columns, node.depth-1);
             GrowTree((Node.Decision) node.Right);
         }
@@ -190,7 +184,7 @@ public class DecisionTree {
         }
         CheckIndexes();
 
-        System.out.println("Growing tree...");
+        //System.out.println("Growing tree...");
         //when somebody gives max_depth == 1 then the tree only has a head
         if(max_depth == 1 || gini.calculateGiniIndex(Indexes) == 0){
             ArrayList vals = new ArrayList();
@@ -198,13 +192,13 @@ public class DecisionTree {
                 vals.add(dataFrame.getValuesToPredict().get(Indexes.get(i)));
             }
             head = new Node.Leaf(Indexes, dominant(vals));
-              System.out.println("Head: " + ((Node.Leaf) head).getIndexes());
+            //  System.out.println("Head: " + ((Node.Leaf) head).getIndexes());
         } else {
             head = new Node.Decision(Indexes, colnames, max_depth);
-             System.out.println("Head: " + ((Node.Decision) head).getIndexes());
+            // System.out.println("Head: " + ((Node.Decision) head).getIndexes());
             GrowTree((Node.Decision) head);
         }
-        System.out.println("Tree created succesfully!");
+        //System.out.println("Tree created succesfully!");
     }
 
     // searches grown tree with given dataFrame index

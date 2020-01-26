@@ -20,7 +20,6 @@ public class Main {
         test.setToPredict("quality");
 
 
-
         RandomForest randomForest = new RandomForest(40,test,30,80,80, 200);
 
         ArrayList<DataFrame> test_train_split = randomForest.DivisionData();
@@ -44,5 +43,8 @@ public class Main {
         }
 
         System.out.println(suma/genuineResults.size());
+
+
+
     }
 }

@@ -119,7 +119,7 @@ public class RandomForest {
             decisionTree.CultureTree();
             forest.add(decisionTree);
 
-            System.out.println(i + "/" + number_of_trees);
+            System.out.print("dupa \r");
 
         }
 
