@@ -67,18 +67,12 @@ public class Main {
         test.convertToNumeric();
         test.setToPredict("quality");
 
-        RandomForest randomForest = new RandomForest(40,test,70,70,80, 200);
+        RandomForest randomForest = new RandomForest(40,test,60,90,80, 100);
 
         ArrayList<Integer> results =  randomForest.forestResults();
         System.out.println();
-        //approximately 53%
+        //approximately 43-50%
         System.out.println(randomForest.howGoodIsOurForest(results));
-        */
-
-
-
-
-
 
     }
 }
