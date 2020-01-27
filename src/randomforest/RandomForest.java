@@ -2,21 +2,23 @@ package randomforest;
 
 import dataload.DataFrame;
 import decisiontree.DecisionTree;
-import decisiontree.Node;
-
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.HashMap;
 
 public class RandomForest {
-    int height;
-    DataFrame dataFrame;
-    double rowPercentage;
-    double columnPercentage;
-    double DivisionPercentage;
-    int number_of_trees;
-    ArrayList<DecisionTree> trees ;
+
+    private int height;
+    private DataFrame dataFrame;
+    private double rowPercentage;
+    private double columnPercentage;
+    // percentage of rows for the trainData
+    private double DivisionPercentage;
+    private int number_of_trees;
+
+    private ArrayList<DecisionTree> trees;
+    private DataFrame trainData;
+    private DataFrame testData;
 
     public RandomForest(int height, DataFrame dataFrame, double rowPercentage, double columnPercentage, double DivisionPercentage, int number_of_trees) {
         this.height = height;
@@ -25,12 +27,13 @@ public class RandomForest {
         this.columnPercentage = columnPercentage;
         this.DivisionPercentage = DivisionPercentage;
         this.number_of_trees = number_of_trees;
-        this.trees = trees;
+        this.trees = null;
+        this.testData = null;
+        this.trainData = null;
     }
 
-    //chcemy gdzies sprawdzac co przewiduje - czy ma ustawione - moze w train()
-
-    public ArrayList<DataFrame> DivisionData() throws Exception {
+    //divides dataFrame into training and test DataFrame using DivisionPercentage
+    private void DivisionData() throws Exception {
 
         ArrayList<String> colnames = dataFrame.getColnames();
         int AllRowIndexes = dataFrame.getColumn(colnames.get(0)).size();
@@ -44,7 +47,7 @@ public class RandomForest {
         if(DivisionPercentage >= 50.0){
             for(String column : colnames){
                 ArrayList trainingRows = data.get(column);
-                ArrayList testingRows = new ArrayList<>();
+                ArrayList testingRows = new ArrayList();
                 for(int i = MaxRowForTrainingData+1; i < AllRowIndexes; i++){
                     testingRows.add(trainingRows.remove(MaxRowForTrainingData+1));
                 }
@@ -54,7 +57,7 @@ public class RandomForest {
         }else{
             for(String column : colnames){
                 ArrayList testingRows = data.get(column);
-                ArrayList trainingRows = new ArrayList<>();
+                ArrayList trainingRows = new ArrayList();
                 for(int i = 0; i <= MaxRowForTrainingData; i++){
                     trainingRows.add(testingRows.remove(0));
                 }
@@ -63,16 +66,16 @@ public class RandomForest {
             }
         }
 
-        ArrayList<DataFrame> listOfData = new ArrayList<>();
         DataFrame training = new DataFrame(trainingData, colnames);
         DataFrame testing = new DataFrame(testingData, colnames);
-
-        listOfData.add(training);
-        listOfData.add(testing);
-        return listOfData;
+        training.setToPredict(dataFrame.getColnameToPredict());
+        testing.setToPredict(dataFrame.getColnameToPredict());
+        trainData = training;
+        testData = testing;
     }
 
-    public void train(DataFrame trainData) throws Exception {
+    // creates a forest from the trainData for later prediction
+    private void train() throws Exception {
 
         if (trainData.getColnameToPredict() == null ) {
             throw new Exception("Colname to predict has not been set!");
@@ -99,7 +102,7 @@ public class RandomForest {
         Random random = new Random();
 
         // growing trees
-        int index = 0 ;
+        int index;
         String colname;
         for (int i = 0; i < number_of_trees;  i++) {
             // preparing data for decisionTree
@@ -107,7 +110,6 @@ public class RandomForest {
                index = random.nextInt(trainData.getValuesToPredict().size());
                indexes.add(index);
             }
-
 
             for (int j = 0 ; j < columnPercentage*colSize/100; j++) {
                 colname = colnamesToPickFrom.get(random.nextInt(colnamesToPickFrom.size()));
@@ -127,23 +129,52 @@ public class RandomForest {
 
     }
 
-    public ArrayList<Integer> test(DataFrame testData) throws Exception {
+    //uses a testData to test forest quality
+    //return ArrayList of dominants for each row from the testData
+    private ArrayList<Integer> test() throws Exception {
+
         ArrayList<ArrayList<Integer>> doms = new ArrayList<>();
 
-        for (int i=0; i<trees.size();i++){
-            doms.add(trees.get(i).predict(testData));
+        for (DecisionTree tree : trees) {
+            doms.add(tree.predict(testData));
         }
         ArrayList<Integer> results = new ArrayList<>();
-        ArrayList<Integer> resultsColumns = new ArrayList<>();
+        ArrayList<Integer> resultsRows = new ArrayList<>();
 
         for (int i=0 ; i < doms.get(0).size(); i++){
-            for (int j=0; j < doms.size(); j++ ){
-                resultsColumns.add(doms.get(j).get(i));
+            for (ArrayList<Integer> dom : doms) {
+                resultsRows.add(dom.get(i));
             }
-            results.add(trees.get(0).dominant(resultsColumns));
+            results.add(trees.get(0).dominant(resultsRows));
         }
 
         return results;
+    }
+
+    //this method is public and return results from test()
+    //using DivisionData() and train()
+    public ArrayList<Integer> forestResults() throws Exception {
+
+        DivisionData();
+        train();
+
+        return test();
+    }
+
+    // calculates prediction quality for the forest
+    // returns the percentage of predicted compliance with the exact result
+    public double howGoodIsOurForest(ArrayList<Integer> forestResults) {
+
+        ArrayList<Integer> genuineResults =  testData.getValuesToPredict();
+
+        double sum = 0;
+        for (int i = 0 ; i < genuineResults.size(); i++){
+            if (forestResults.get(i).equals(genuineResults.get(i))){
+                sum ++;
+            }
+        }
+
+        return Math.round(sum/genuineResults.size()*10000)/100D;
     }
 
 }

@@ -92,5 +92,20 @@ Do konstruktora potrzebuje ramki danych DataFrame z określoną wcześniej kolum
 >   ***dominant(ArrayList<Integer> vals)***      
 >     Oblicza dominantę dla podanych wartości.
 
+**Klasa RandomForest**
+  Klasa odpowiada za tworzenie lasu z drzew decyzyjnych. Użytkownik podaje DataFrame, który jest dzielony na dwa zbiory i na ich podstawie budowany jest las oraz testowana jego jakość przewidywania.
 
+>   ***DivisionData()***          
+>     Dzieli DataFrame na zbiór testowy i treningowy, wykorzystując przy tym DivisionPergentage, który oznacza procent wierszy dla zbioru treningowego, Wyniki podziału przypisuje do pól trainData i testData.
+
+>   ***train()***        
+>     Tworzy las ze zbioru treningowego i ustawia rezultat jako pole trees.
+
+>   ***test()***      
+>     Z wykorzystaniem zbioru testowego sprawdza co przewiduje las dla danych wartości w wierszach. Zwraca listę dominant dla każdego wiersza, które sugerują przewidywaną wartość. 
+
+  Powyższe metody są prywatne, aby użytkownik mógł przewidywać za pomocą lasu musi użyć metody forestResults(), która używa tych metod i zwraca wynik z metody test().
+
+>   ***howGoodIsOurForest(ArrayList<Integer> forestResults)***       
+>     Umożliwia sprawdzenie jakości przewidywań lasu. Zwraca procent poprawnie przewidzianych wartości ze wszystkich jakie były (sumy).
 
