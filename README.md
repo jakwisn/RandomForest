@@ -11,15 +11,7 @@ start: 9 grudnia 2019
 
 Cele projektu, jego krótka charakterystyka i opis podziału pracy zostały zawarte w pliku Konspekt.pdf. Projekt będzie realizowany zgodnie z zawartymi tam informacjami. Zaleca się zapoznanie z nim.
 
-### @ToDo
-
-Teraz punkt 7 z konspektu, wziąć jakieś większe dane niż mamy do tego, powoli wkraczamy w las
-
-Dodatkowo:
-- Można zrobić testy oddzielnie dla metody findBestSplit() w DecisionTreeTests
-- Nie ma testów dla braków danych, trzeba sprawdzić jak się zachowuje algorytm, gdy na to na trafi i pewnie coś dopisać
-
-### Done : 
+### Zawartość projektu - opis klas i ich metod
 **Klasa csvToDataFrame**    
   Celem tej klasy jest konwertowanie plików csv na Ramki danych naszego autorstwa. 
 Do konstruktora przyjmuje ścieżkę do pliku csv oraz separator użyty w pliku. 
@@ -92,7 +84,7 @@ Do konstruktora potrzebuje ramki danych DataFrame z określoną wcześniej kolum
 >   ***dominant(ArrayList<Integer> vals)***      
 >     Oblicza dominantę dla podanych wartości.
 
-**Klasa RandomForest**
+**Klasa RandomForest**            
   Klasa odpowiada za tworzenie lasu z drzew decyzyjnych. Użytkownik podaje DataFrame, który jest dzielony na dwa zbiory i na ich podstawie budowany jest las oraz testowana jego jakość przewidywania.
 
 >   ***DivisionData()***          
@@ -108,4 +100,3 @@ Do konstruktora potrzebuje ramki danych DataFrame z określoną wcześniej kolum
 
 >   ***howGoodIsOurForest(ArrayList<Integer> forestResults)***       
 >     Umożliwia sprawdzenie jakości przewidywań lasu. Zwraca procent poprawnie przewidzianych wartości ze wszystkich jakie były (sumy).
-
