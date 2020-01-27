@@ -100,3 +100,7 @@ Do konstruktora potrzebuje ramki danych DataFrame z określoną wcześniej kolum
 
 >   ***howGoodIsOurForest(ArrayList<Integer> forestResults)***       
 >     Umożliwia sprawdzenie jakości przewidywań lasu. Zwraca procent poprawnie przewidzianych wartości ze wszystkich jakie były (sumy).
+
+### Analiza wyników
+
+Projekt został ukończczony, jednak przewidywane wartości nie są najlepsze dla małej ilości drzew. Dodatkowo pojawia się problem wolnego działania algorytmu, co uniemożliwia tworzenie lasu z dużą ilością drzew...
