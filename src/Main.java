@@ -14,17 +14,17 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        /*
+
         csvToDataFrame csv2df = new csvToDataFrame("Iris.csv",",");
         DataFrame test = csv2df.convertToDataFrame();
         test.convertToNumeric();
         test.setToPredict("Species");
-        RandomForest randomForest = new RandomForest(4,test,80,50,80, 50);
+        RandomForest randomForest = new RandomForest(8,test,80,50,80, 100);
 
         ArrayList<Integer> results =  randomForest.forestResults();
         System.out.println();
         System.out.println(randomForest.howGoodIsOurForest(results));
-         */
+
 
         /*
         csvToDataFrame csv2df = new csvToDataFrame("heart.csv",",");
@@ -73,6 +73,6 @@ public class Main {
         System.out.println();
         //approximately 43-50%
         System.out.println(randomForest.howGoodIsOurForest(results));
-
+        */
     }
 }
