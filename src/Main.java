@@ -23,7 +23,7 @@ public class Main {
 
         ArrayList<Integer> results =  randomForest.forestResults();
         System.out.println();
-        //approximately 47%
+        //approximately 43-50%
         System.out.println(randomForest.howGoodIsOurForest(results));
 
     }

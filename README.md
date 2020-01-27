@@ -85,6 +85,9 @@ Do konstruktora potrzebuje ramki danych DataFrame z określoną wcześniej kolum
 >   ***dominant(ArrayList<Integer> vals)***      
 >     Oblicza dominantę dla podanych wartości.
 
+>   ***calculatePercentages(ArrayList<Integer> indexes)***      
+>     ...
+
 **Klasa RandomForest**            
   Klasa odpowiada za tworzenie lasu z drzew decyzyjnych. Użytkownik podaje DataFrame, który jest dzielony na dwa zbiory i na ich podstawie budowany jest las oraz testowana jego jakość przewidywania.
 
@@ -104,6 +107,7 @@ Do konstruktora potrzebuje ramki danych DataFrame z określoną wcześniej kolum
 
 ## Analiza wyników
 
-  Projekt został ukończczony zgodnie z założeniami zawartymi w konspekcie (z małymi zmianami co do kolejności wykonywania zadań i poświęconego czasu na dane punkty - zmiany jakie następiły w trakcie zostały naniesione do konspektu i można je znaleźć w pliku *Kospekt(końcowa wersja).pdf*). Las losowy buduje się szybko i stabilnie, jednak jego przewidywanie jest różne w zależności od zbioru. Zwykle oscyluje w granicach 50% dobrych przewidywań dla dużych zbiorów i dużej ilości danych. Zdarzają się jednak zbiory, które mają przewidywania blisko 100% zgodności z prawidłowymi wynikami.
+  Projekt został ukończczony zgodnie z założeniami zawartymi w konspekcie (z małymi zmianami co do kolejności wykonywania zadań i poświęconego czasu na dane punkty - zmiany jakie następiły w trakcie zostały naniesione do konspektu i można je znaleźć w pliku *Kospekt(końcowa wersja).pdf*). Las losowy buduje się szybko i stabilnie, jednak jego przewidywanie jest różne w zależności od zbioru. Zwykle oscyluje w granicach 50% dobrych przewidywań dla dużych zbiorów i dużej ilości danych. Zdarzają się jednak zbiory, które mają przewidywania blisko 100% zgodności z prawidłowymi wynikami. Metoda predict oparta na przewidywaniu z wykorzystaniem dominant okazała się dobrym wyborem dla danych o równych dystrybucjach, wtedy algorytm działa tak jak byśmy chcieli.
 
   Można założyć, że projekt został wykonany poprawnie i wynieśliśmy z niego ogromną wiedzę na temat lasów losowych. Praca grupowa przebiegała sprawnie, a jako programiści zyskaliśmy nawyk testowania każdej napisanej klasy/metody w celu znajdowania błędów i ulepszania algorytmów. Cel projektu zawarty w konspekcie został osiągnięty, jedynie możemy być niezadowoleni z jakości działania naszego algorytmu w kwestii przewidywania. Poprawianie i ulepszanie algorytmów dotyczących przewidywań, zakładają znalezienie innych metod liczenia indeksów i podziałów - czyli napisanie większości od nowa, a wcale nie oznacza to, że znaleźlibyśmy lepszy sposób. Poprawa przewidywania mogłaby zająć wiele tygodni prac nad zgłębianiem tematyki predykcji. Oznacza to, że projekt jest bardzo złożony i powstanie dobrej bilbioteki wymaga pracy wielomisięcznej, aby dopracować każdy szczegół. Biorąc to pod uwagę, jesteśmy zadowoleni z naszych rezultatów, które osiągnęliśmy w tak krótkim czasie. 
+  

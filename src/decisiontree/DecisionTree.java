@@ -28,6 +28,7 @@ public class DecisionTree {
     // method checks indexes
     // if index doesn't appear in the dataFrame then method returns exception
     private void CheckIndexes() throws Exception {
+
         int max_index = dataFrame.getColumn(dataFrame.getColnames().get(0)).size() - 1;
         for(int i : Indexes){
             if(i > max_index){
@@ -66,19 +67,19 @@ public class DecisionTree {
     // method finds best split point in a particular column
     // used by findBestSplit()
     private static ArrayList split(String colname,ArrayList<Integer> indexes, Gini gini) throws Exception {
+
         ArrayList<Double> fullList = dataFrame.getColumn(colname);
         ArrayList<Double> list = new ArrayList<>();
         for (int i:indexes){list.add(fullList.get(i));}
 
 
         // sorting values on our indexes
-        List tmpList1 = list.stream().sorted().collect(Collectors.toList());
-        ArrayList<Double> tmpList2 = new ArrayList<>(tmpList1);
+        ArrayList<Double> tmpList2 = list.stream().sorted().collect(Collectors.toCollection(ArrayList::new));
         ArrayList<Double> splits = new ArrayList<>();
 
 
-        ArrayList<Integer> listPart1 = new ArrayList<>();
-        ArrayList<Integer> listPart2 = new ArrayList<>();
+        ArrayList<Integer> listPart1;
+        ArrayList<Integer> listPart2;
 
         int bestSplitIndex = 1;
 
@@ -123,6 +124,7 @@ public class DecisionTree {
 
     // recursive method building tree from given node; called by grow() method
     private void GrowTree(Node.Decision node) throws Exception {
+
         // finds best split and saves it as node field
         ArrayList bestSplit = findBestSplit( node.getColumns(), node.getIndexes(), gini);
         node.setVal((double)bestSplit.get(1));
@@ -176,8 +178,6 @@ public class DecisionTree {
 
             node.list1 = list1;
             node.list2 = list2;
-
-
 
         }
 
@@ -264,7 +264,7 @@ public class DecisionTree {
     }
 
     // calculates the dominant for the given values from the Predict column
-    // used by predict() and CultureTree()
+    // used by CultureTree()
     public int dominant(ArrayList<Integer> vals){
 
         HashMap<Integer, Integer> values = new HashMap<>();
@@ -295,13 +295,12 @@ public class DecisionTree {
 
         HashMap<Integer, Double> values = new HashMap<>();
 
-        for (int i=0; i<indexes.size(); i++){
-            if (values.containsKey(indexes.get(i))){
-                double temp = values.get(indexes.get(i));
-                values.put(indexes.get(i), temp+1);
-            }
-            else {
-                values.put(indexes.get(i), (double) 1);
+        for (Integer index : indexes) {
+            if (values.containsKey(index)) {
+                double temp = values.get(index);
+                values.put(index, temp + 1);
+            } else {
+                values.put(index, (double) 1);
             }
         }
         for(int key:values.keySet()){
