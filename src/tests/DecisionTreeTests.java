@@ -66,7 +66,6 @@ public class DecisionTreeTests {
         assertEquals(valuesfrompredictcolumn, dominants);
     }
 
-    //@ToDo
     @org.junit.Test
     public void IndexesWithTheSameValueTests() throws Exception {
         csvToDataFrame csv2df = new csvToDataFrame("test.csv",",");
