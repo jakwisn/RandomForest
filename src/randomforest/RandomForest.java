@@ -121,8 +121,8 @@ public class RandomForest {
             decisionTree.CultureTree();
             forest.add(decisionTree);
 
-            System.out.print("\b\b\b\b\b\b\b\b\b\b");
-            System.out.print("Progres:" +  i+1 + "/" + number_of_trees);
+            System.out.print("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b");
+            System.out.print("Progres:" +  (i+1) + "/" + number_of_trees);
 
         }
         System.out.println(" ");
