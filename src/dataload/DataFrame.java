@@ -69,13 +69,15 @@ public class DataFrame {
             // set as predicted one
             this.colnameToPredict = colname;
 
-            // set predicted array to integers
-            ArrayList<Double> doubles = dataFrame.get(colname);
             ArrayList<Integer> integers = new ArrayList<>();
-
-            for (Double aDouble : doubles) {
-                integers.add((int) Math.round(aDouble));
+            if (dataFrame.get(colname).get(0) instanceof Double) {
+                // set predicted array to integers
+                ArrayList<Double> doubles = dataFrame.get(colname);
+                for (Double aDouble : doubles) {
+                    integers.add((int) Math.round(aDouble));
+                }
             }
+            else {integers = dataFrame.get(colname);}
 
             this.valuesToPredict = integers;
         }
