@@ -116,17 +116,18 @@ public class RandomForest {
                 colnames.add(colname);
             }
             // with random colnames and rows lets grow tree
+
             DecisionTree decisionTree = new DecisionTree(trainData,indexes,colnames,height);
-            System.out.println();
             decisionTree.CultureTree();
             forest.add(decisionTree);
 
-            System.out.print(i+1);
+            System.out.print("\b\b\b\b\b\b\b\b\b\b");
+            System.out.print("Progres:" +  i+1 + "/" + number_of_trees);
 
         }
-
+        System.out.println(" ");
         this.trees = forest;
-
+        System.out.println("Forest created succesfully!");
     }
 
     //uses a testData to test forest quality

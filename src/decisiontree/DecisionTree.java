@@ -4,6 +4,7 @@ import dataload.DataFrame;
 import gini.Gini;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class DecisionTree {
 
@@ -69,29 +70,32 @@ public class DecisionTree {
         ArrayList<Double> list = new ArrayList<>();
         for (int i:indexes){list.add(fullList.get(i));}
 
-        int bestSplitIndex = 0;
+
+        // sorting values on our indexes
+        List tmpList1 = list.stream().sorted().collect(Collectors.toList());
+        ArrayList<Double> tmpList2 = new ArrayList<>(tmpList1);
+        ArrayList<Double> splits = new ArrayList<>();
+
+
         ArrayList<Integer> listPart1 = new ArrayList<>();
         ArrayList<Integer> listPart2 = new ArrayList<>();
 
-        // check split on value of each index
-        for (Integer index : indexes) {
-            if (fullList.get(index) < fullList.get(indexes.get(0))) {
-                listPart1.add(index);
-            } else {
-                listPart2.add(index);
-            }
+        int bestSplitIndex = 1;
+
+        for (int i=0 ; i < list.size(); i += (int)Math.floor(list.size()/10) +1){
+            splits.add(list.get(i));
         }
 
         // comparing splits by weighted arithmetic mean with weights being numbers of elements in both splits
-        double gini1 = gini.calculateGiniIndex(listPart1);
-        double gini2 = gini.calculateGiniIndex(listPart2);
-        double bestSplitValue = (gini1*listPart1.size()+gini2*listPart2.size())/(indexes.size());
+        double gini1 = 2;
+        double gini2 = 2;
+        double bestSplitValue = 4;
 
-        for (int i=1;i<list.size();i+=1){
+        for (double split:splits){
             listPart1 = new ArrayList<>();
             listPart2 = new ArrayList<>();
             for (Integer index : indexes) {
-                if (fullList.get(index) < fullList.get(indexes.get(i))) {
+                if (fullList.get(index) < split) {
                     listPart1.add(index);
                 } else {
                     listPart2.add(index);
@@ -107,7 +111,7 @@ public class DecisionTree {
             else x = 0;
             if((gini1*listPart1.size()+gini2*listPart2.size())/(list.size())+x<bestSplitValue){
                 bestSplitValue = (gini1*listPart1.size()+gini2*listPart2.size())/(list.size());
-                bestSplitIndex = i;
+                bestSplitIndex = (int)list.indexOf(split);
             }
         }
 
@@ -122,8 +126,9 @@ public class DecisionTree {
         // finds best split and saves it as node field
         ArrayList bestSplit = findBestSplit( node.getColumns(), node.getIndexes(), gini);
         node.setVal((double)bestSplit.get(1));
-        node.setColname((String)bestSplit.get(0));
 
+
+        node.setColname((String)bestSplit.get(0));
         // divide indexes according to best split
         ArrayList list1 = new ArrayList();
         ArrayList list2 = new ArrayList();
@@ -140,11 +145,44 @@ public class DecisionTree {
         node.list1 = list1;
         node.list2 = list2;
 
-        ArrayList columns = node.getColumns();
-        columns.remove(node.getColname());
+        node.getColumns().remove(node.getColname());
+
+        // case if list1 or list2 is empty
+        // we get other column
+        while (node.columns.size()>0 && node.list1.size()*node.list2.size() ==0){
+
+            node.getColumns().remove(node.colname);
+            if (node.getColumns().size() == 0){
+                // columns are empty, there will be leaf created
+                break;
+            }
+            // code same as above
+            bestSplit = findBestSplit( node.getColumns(), node.getIndexes(), gini);
+            node.setVal((double)bestSplit.get(1));
+            node.setColname((String)bestSplit.get(0));
+
+            // divide indexes according to best split
+             list1 = new ArrayList();
+             list2 = new ArrayList();
+            for (int i=0; i<node.Indexes.size(); i++){
+                if (dataFrame.getColumn(node.getColname()).get(node.Indexes.get(i)) >= node.val){
+                    list2.add(node.Indexes.get(i));
+                }
+                else{list1.add(node.Indexes.get(i));}
+            }
+
+            node.gini1 = gini.calculateGiniIndex(list1);
+            node.gini2 = gini.calculateGiniIndex(list2);
+
+            node.list1 = list1;
+            node.list2 = list2;
+
+
+
+        }
 
         // create node's children ang grow tree recursively
-        if( node.gini1==0 || node.depth==2 || columns.size()==0){
+        if( node.gini1==0 || node.depth==2 || node.getColumns().size()==0){
 
             ArrayList<Integer> vals = new ArrayList<>();
             for (int i=0;i<node.list1.size();i++){
@@ -155,10 +193,10 @@ public class DecisionTree {
         }
         else{
             //System.out.println("creating Left dec " + node.list1);
-            node.Left = new Node.Decision(node.list1, columns, node.depth-1);
+            node.Left = new Node.Decision(node.list1, node.getColumns(), node.depth-1);
             GrowTree((Node.Decision) node.Left);
         }
-        if( node.gini2==0 || node.depth==2 || columns.size()==0){
+        if( node.gini2==0 || node.depth==2 || node.getColumns().size()==0){
             ArrayList<Integer> vals = new ArrayList<>();
             for (int i=0;i<node.list2.size();i++){
                 vals.add(dataFrame.getValuesToPredict().get(node.list2.get(i)));
@@ -168,7 +206,7 @@ public class DecisionTree {
         }
         else{
             //System.out.println("creating Right dec " + node.list2);
-            node.Right = new Node.Decision(node.list2, columns, node.depth-1);
+            node.Right = new Node.Decision(node.list2, node.getColumns(), node.depth-1);
             GrowTree((Node.Decision) node.Right);
         }
     }
@@ -251,6 +289,30 @@ public class DecisionTree {
         return maxVal;
     }
 
+    public ArrayList<Double> calculatePercentages(ArrayList<Integer> indexes){
+        List uniques =  dataFrame.getValuesToPredict().stream().distinct().collect(Collectors.toList());
+        ArrayList<Double> probOfClass = new ArrayList<Double>(uniques);
+
+        HashMap<Integer, Double> values = new HashMap<>();
+
+        for (int i=0; i<indexes.size(); i++){
+            if (values.containsKey(indexes.get(i))){
+                double temp = values.get(indexes.get(i));
+                values.put(indexes.get(i), temp+1);
+            }
+            else {
+                values.put(indexes.get(i), (double) 1);
+            }
+        }
+        for(int key:values.keySet()){
+            values.put(key,values.get(key)/indexes.size());
+
+        }
+        for(int key:values.keySet()){
+            probOfClass.set(key,values.get(key));
+        }
+        return  probOfClass;
+    }
 
 
 }

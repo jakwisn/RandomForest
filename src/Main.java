@@ -19,7 +19,7 @@ public class Main {
         test.convertToNumeric();
         test.setToPredict("quality");
 
-        RandomForest randomForest = new RandomForest(40,test,50,90,90, 10);
+        RandomForest randomForest = new RandomForest(40,test,50,90,90, 100);
 
         ArrayList<Integer> results =  randomForest.forestResults();
         System.out.println();
