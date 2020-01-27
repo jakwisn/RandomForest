@@ -4,7 +4,6 @@ import decisiontree.DecisionTree;
 import decisiontree.Node;
 import gini.Gini;
 import randomforest.RandomForest;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,10 +19,11 @@ public class Main {
         test.convertToNumeric();
         test.setToPredict("quality");
 
-
-        RandomForest randomForest = new RandomForest(40,test,20,80,80, 10);
+        RandomForest randomForest = new RandomForest(40,test,50,90,90, 10);
 
         ArrayList<Integer> results =  randomForest.forestResults();
+        System.out.println();
+        //approximately 53%
         System.out.println(randomForest.howGoodIsOurForest(results));
 
     }
