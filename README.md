@@ -11,7 +11,8 @@ start: 9 grudnia 2019
 
 Cele projektu, jego krótka charakterystyka i opis podziału pracy zostały zawarte w pliku Konspekt.pdf. Projekt będzie realizowany zgodnie z zawartymi tam informacjami. Zaleca się zapoznanie z nim.
 
-### Zawartość projektu - opis klas i ich metod
+## Zawartość projektu - opis klas i ich metod
+
 **Klasa csvToDataFrame**    
   Celem tej klasy jest konwertowanie plików csv na Ramki danych naszego autorstwa. 
 Do konstruktora przyjmuje ścieżkę do pliku csv oraz separator użyty w pliku. 
@@ -101,6 +102,6 @@ Do konstruktora potrzebuje ramki danych DataFrame z określoną wcześniej kolum
 >   ***howGoodIsOurForest(ArrayList<Integer> forestResults)***       
 >     Umożliwia sprawdzenie jakości przewidywań lasu. Zwraca procent poprawnie przewidzianych wartości ze wszystkich jakie były (sumy).
 
-### Analiza wyników
+## Analiza wyników
 
 Projekt został ukończczony, jednak przewidywane wartości nie są najlepsze dla małej ilości drzew. Dodatkowo pojawia się problem wolnego działania algorytmu, co uniemożliwia tworzenie lasu z dużą ilością drzew...
