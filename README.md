@@ -71,7 +71,7 @@ Do konstruktora potrzebuje ramki danych DataFrame z określoną wcześniej kolum
 >     Metoda znajduje najlepszy split (punkt splitu) ze wszystkich danych kolumn i ich indeksów, zwraca listę zawierającą nazwę kolumny i wartość, która to ma najlepszy podział zmiennych - korzysta z metody split.
 
 >   ***split(String colname,ArrayList<Integer> indexes, Gini gini)***     
->     Dla danej kolumny i indeksów znajduje najlepszy punkt podziału zmiennych - posiadający najlepszy indeks Gini. Zwraca listę zawierającą wartość splitu i index dla niego.
+>     Dla danej kolumny i indeksów znajduje najlepszy punkt podziału zmiennych - posiadający najlepszy indeks Gini. Zwraca listę zawierającą wartość splitu i index dla niego. Punkt poszukiwany jest co decyl posortowanych wartości
 
 >   ***GrowTree(Node.Decision node)***    
 >     Rekursywna metoda tworzenia drzewa.
@@ -86,7 +86,7 @@ Do konstruktora potrzebuje ramki danych DataFrame z określoną wcześniej kolum
 >     Oblicza dominantę dla podanych wartości.
 
 >   ***calculatePercentages(ArrayList<Integer> indexes)***      
->     ...
+>     Metoda nie zaimplementowana, być może w wersji 1.2. Jest odpowiedzią na podatną na nierównomierne dystrybucje ***dominant***. W zamyśle liczy udział danej klasy w nodzie, i przechowuje to w ArrayLiście prawdopobieństw. Następnie listy są sumowane po kolumnach, a później indeks o największej wartości jest interesującą nas klasą. 
 
 **Klasa RandomForest**            
   Klasa odpowiada za tworzenie lasu z drzew decyzyjnych. Użytkownik podaje DataFrame, który jest dzielony na dwa zbiory i na ich podstawie budowany jest las oraz testowana jego jakość przewidywania.
@@ -107,7 +107,7 @@ Do konstruktora potrzebuje ramki danych DataFrame z określoną wcześniej kolum
 
 ## Analiza wyników
 
-  Projekt został ukończczony zgodnie z założeniami zawartymi w konspekcie (z małymi zmianami co do kolejności wykonywania zadań i poświęconego czasu na dane punkty - zmiany jakie następiły w trakcie zostały naniesione do konspektu i można je znaleźć w pliku *Kospekt(końcowa wersja).pdf*). Las losowy buduje się szybko i stabilnie, jednak jego przewidywanie jest różne w zależności od zbioru. Zwykle oscyluje w granicach 50% dobrych przewidywań dla dużych zbiorów i dużej ilości danych. Zdarzają się jednak zbiory, które mają przewidywania blisko 100% zgodności z prawidłowymi wynikami. Metoda predict oparta na przewidywaniu z wykorzystaniem dominant okazała się dobrym wyborem dla danych o równych dystrybucjach, wtedy algorytm działa tak jak byśmy chcieli.
+  Projekt został ukończczony zgodnie z założeniami zawartymi w konspekcie (z małymi zmianami co do kolejności wykonywania zadań i poświęconego czasu na dane punkty - zmiany jakie następiły w trakcie zostały naniesione do konspektu i można je znaleźć w pliku *Kospekt(końcowa wersja).pdf*). Las losowy buduje się szybko i stabilnie, jednak jego przewidywanie jest różne w zależności od zbioru. Na niektórych zbiorach dostajemy bardzo niskie skuteczności, a na niektórych zadziwiająco dobre, które mają przewidywania blisko 100% zgodne z prawidłowymi wynikami. Metoda predict oparta na przewidywaniu z wykorzystaniem dominant okazała się dobrym wyborem dla danych o równych dystrybucjach, wtedy algorytm działa tak jak byśmy chcieli.
 
   Można założyć, że projekt został wykonany poprawnie i wynieśliśmy z niego ogromną wiedzę na temat lasów losowych. Praca grupowa przebiegała sprawnie, a jako programiści zyskaliśmy nawyk testowania każdej napisanej klasy/metody w celu znajdowania błędów i ulepszania algorytmów. Cel projektu zawarty w konspekcie został osiągnięty, jedynie możemy być niezadowoleni z jakości działania naszego algorytmu w kwestii przewidywania. Poprawianie i ulepszanie algorytmów dotyczących przewidywań, zakładają znalezienie innych metod liczenia indeksów i podziałów - czyli napisanie większości od nowa, a wcale nie oznacza to, że znaleźlibyśmy lepszy sposób. Poprawa przewidywania mogłaby zająć wiele tygodni prac nad zgłębianiem tematyki predykcji. Oznacza to, że projekt jest bardzo złożony i powstanie dobrej bilbioteki wymaga pracy wielomisięcznej, aby dopracować każdy szczegół. Biorąc to pod uwagę, jesteśmy zadowoleni z naszych rezultatów, które osiągnęliśmy w tak krótkim czasie. 
   
